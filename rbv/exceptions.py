@@ -1,0 +1,2 @@
+class BaseValidationError(Exception):
+    pass
