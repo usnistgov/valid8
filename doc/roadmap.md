@@ -1,13 +1,10 @@
-
 ## First prototype
 
 * Basic syntax for rules markup
 * CLI
   * Inputs:
     * Rules markup
-    * Directory to apply rules to
   * Outputs:
-    * Return code 0/1
     * Summary log
 ```bash
 rbv rules.yml
@@ -20,6 +17,11 @@ rbv rules.yml
 ## Enhancements
 
 Unordered.
+
+### Rules_d reorganization
+Include contexts in rules_d
+Drop the s in contexts
+Have the actions output be in rules_d, subdir matching context(s)
 
 ### Linter
 Need a linter tool to validate yml markup

@@ -10,3 +10,8 @@ test:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
+
+quality:
+  script:
+    - make quality
+

@@ -1,4 +1,4 @@
-.PHONY: help test coverage clean
+.PHONY: help dep build devdep test coverage quality clean
 .DEFAULT: help
 
 help:
@@ -6,9 +6,16 @@ help:
 	@echo "       run tests with coverage"
 	@echo "make coverage"
 	@echo "       show coverage reports"
+	@echo "make build"
+	@echo "       install package"
+	@echo "make quality"
+	@echo "       run quality checks"
+	@echo "make clean"
+	@echo "       delete all intermediary files"
 
 TEST_COMMAND=pytest -s test/ -v
 SRC_DIR=./rbv
+CLEAN_TARGETS=dist *.egg-info build doc/api htmlcov .pytest_cache .coverage
 
 dep:
 	pip install -q -r requirements.txt
@@ -27,5 +34,9 @@ coverage: dep devdep
 	coverage report -m
 	coverage html
 
+quality:
+	pip install -q flake8
+	flake8 --ignore=E501,F401
+
 clean:
-	rm -rf dist *.egg-info build doc/api htmlcov .pytest_cache .coverage
+	rm -rf $(CLEAN_TARGETS)

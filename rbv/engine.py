@@ -1,15 +1,14 @@
-from . import filters, actions  # getattr depends on this line
-import yaml
 from collections import defaultdict
 
-some_text_file = ""
-# to-yaml
+import yaml
+
+from . import actions, filters  # map_to_func depends on this line
 
 
 def parse_yml(filepath):
     with open(filepath) as ymlf:
-        h = yaml.load(ymlf)
-    return h
+        rules_list = yaml.load(ymlf)
+    return rules_list
 
 
 def map_to_func(type, name):
@@ -51,8 +50,6 @@ def extract_rules(rules_list):
     return extracted
 
 
-from .context import Context
-
 # dict of dict rules
 # keeps track of action returns
 # output: dict of action returns
@@ -67,20 +64,22 @@ def act_on_rules(rules):
 def act_on_rule(rule):
     contexts = list()
     # get context from filters
-    for filter in rule['filters']:
-        filter['func'](filter['args'], contexts=contexts, **filter['kwargs'])
+    for filter in rule["filters"]:
+        filter["func"](filter["args"], contexts=contexts, **filter["kwargs"])
 
-    rule['context'] = contexts
+    rule["context"] = contexts
 
-    for action in rule['actions']:
-        action_output = action['func'](action['args'], contexts=contexts, **action['kwargs'])
-        action['output'], action['exceptions'], action['detail'] = action_output
+    for action in rule["actions"]:
+        action_output = action["func"](
+            action["args"], contexts=contexts, **action["kwargs"]
+        )
+        action["output"], action["exceptions"], action["detail"] = action_output
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    filename = 'examples/single_rule_single_action.yml'
-    execution_dir = '.'  # cannot change this for now
+    filename = "examples/single_rule_single_action.yml"
+    execution_dir = "."  # cannot change this for now
 
     yml_contents = parse_yml(filename)
     rules_d = extract_rules(yml_contents)
@@ -89,8 +88,7 @@ if __name__ == '__main__':
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
         print("  Contexts:")
-        for context in rule_content['context']:
+        for context in rule_content["context"]:
             print("    ", context.filepath)
-        for action in rule_content['actions']:
-            print("  Action: ", action['name'], action['output'])
-    pass
+        for action in rule_content["actions"]:
+            print("  Action: ", action["name"], action["output"])
