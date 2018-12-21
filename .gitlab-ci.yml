@@ -1,0 +1,12 @@
+image: python:3.7
+
+build:
+  script:
+    - make build
+
+test:
+  script:
+    - make coverage
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/htmlcov

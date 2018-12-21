@@ -1,0 +1,15 @@
+- rulename: arbitraryrulename
+  filters:
+    path: "path/to/file.ext"
+    path_list:
+      - "/path/to/other/file.ext"
+      - "/pattern/*.ext"
+    paths_from_file:
+      - "/source/file.txt"
+  actions:
+    exists: true
+    type: "file"
+    cardinality: ">1"
+    some_complicated_action:
+        arg1: "hello"
+        arg2: "world"
