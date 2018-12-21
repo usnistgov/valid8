@@ -1,10 +1,16 @@
 image: python:3.7
 
+stages:
+  - build
+  - test
+
 build:
+  stage: build
   script:
     - make build
 
 test:
+  stage: test
   script:
     - make coverage
   artifacts:
@@ -12,6 +18,7 @@ test:
       - $CI_PROJECT_DIR/htmlcov
 
 quality:
+  stage: test
   script:
     - make quality
-
+  allow_failure: true
