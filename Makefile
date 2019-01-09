@@ -24,7 +24,7 @@ build: dep
 	python setup.py install
 
 devdep:
-	pip install -q pytest>=3.9 coverage
+	pip install -q 'pytest>=3.9' coverage
 
 test: dep devdep
 	$(TEST_COMMAND)
