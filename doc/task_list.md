@@ -3,9 +3,9 @@
 - Development
     - [x] Return codes mirror rules validity
     - [ ] Make `rules_d` a uniform data structure holding context
-    - [ ] Get rid of the `Context` class (?) 
+    - [x] Get rid of the `Context` class (?) 
     - [ ] Get rid of the `Output` class
-    - [ ] Centralize exceptions (?)
+    - [x] Centralize exceptions (?)
     - [ ] Handle incorrect syntax or missing rules
     - [ ] Add actions
         - [ ] Match action
@@ -17,6 +17,7 @@
 - Unit tests
     - Add: 
         - [x] `test_engine.py`
+        - [ ] `test_exists.py` (currently empty)
         - [ ] `test_cli.py`
     - [ ] Test `rules_d` content and fields at multiple steps
 - Integration tests

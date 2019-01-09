@@ -68,16 +68,16 @@ def rules_output(rules):
 
 
 def act_on_rule(rule):
-    contexts = list()
+    context = list()
     # get context from filters
     for filter in rule["filters"]:
-        filter["func"](filter["args"], contexts=contexts, **filter["kwargs"])
+        filter["func"](filter["args"], context=context, **filter["kwargs"])
 
-    rule["context"] = contexts
+    rule["context"] = context
 
     for action in rule["actions"]:
         action_output = action["func"](
-            action["args"], contexts=contexts, **action["kwargs"]
+            action["args"], context=context, **action["kwargs"]
         )
         action["output"], action["exceptions"], action["detail"] = action_output
 
@@ -100,9 +100,9 @@ if __name__ == "__main__":
 
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
-        print("  Contexts:")
+        print("  Context:")
         for context in rule_content["context"]:
-            print("    ", context.filepath)
+            print("    ", context)
         for action in rule_content["actions"]:
             print("  Action: ", action["name"], action["output"])
         print("Rule output: ", rule_content["output"])

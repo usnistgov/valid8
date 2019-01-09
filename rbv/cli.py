@@ -18,9 +18,9 @@ def cli_action(args):
 
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
-        print("  Contexts:")
+        print("  Context:")
         for context in rule_content["context"]:
-            print("    ", context.filepath)
+            print("    ", context)
         for action in rule_content["actions"]:
             print("  Action: ", action["name"], action["output"])
         print("Rule output: ", rule_content["output"])
