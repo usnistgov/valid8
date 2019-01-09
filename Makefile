@@ -1,4 +1,4 @@
-.PHONY: help dep build devdep test coverage quality clean
+.PHONY: help dep build devbuild devdep test coverage quality clean format
 .DEFAULT: help
 
 help:
@@ -20,23 +20,28 @@ CLEAN_TARGETS=dist *.egg-info build doc/api htmlcov .pytest_cache .coverage
 dep:
 	pip install -q -r requirements.txt
 
-build: dep
+build:
 	python setup.py install
 
-devdep:
-	pip install -q 'pytest>=3.9' coverage
+devbuild:
+	pip install -e .
 
-test: dep devdep
+devdep:
+	pip install -q 'pytest>=3.9' coverage black flake8
+
+test:
 	$(TEST_COMMAND)
 
-coverage: dep devdep
+coverage:
 	coverage run --branch --source=$(SRC_DIR) -m $(TEST_COMMAND)
 	coverage report -m
 	coverage html
 
 quality:
-	pip install -q flake8
 	flake8 --ignore=E501,F401
 
 clean:
 	rm -rf $(CLEAN_TARGETS)
+
+format:
+	python -m black .
