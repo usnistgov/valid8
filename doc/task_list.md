@@ -41,8 +41,8 @@
     - [x] `setup.cfg`
 - Documentation
     - [ ] Make a diagram of the 3 steps of the rbv
-    - [ ] Document how to add filter or action rules
-    - [ ] Make a usage README
+    - [x] Document how to add filter or action rules
+    - [x] Make a usage README
     - [ ] Add docstrings 
  - CI 
     - [x] Make format and quality checks automatic on each commit

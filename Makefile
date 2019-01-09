@@ -1,4 +1,4 @@
-.PHONY: help dep build devbuild devdep test coverage quality clean
+.PHONY: help dep install devinstall devdep test coverage quality clean
 .DEFAULT: help
 
 help:
@@ -20,10 +20,10 @@ CLEAN_TARGETS=dist *.egg-info build doc/api htmlcov .pytest_cache .coverage
 dep:
 	pip install -q -r requirements.txt
 
-build: dep
+install: dep
 	python setup.py install
 
-devbuild: devdep
+devinstall: devdep
 	pip install -e .
 
 devdep: dep
