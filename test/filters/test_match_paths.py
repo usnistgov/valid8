@@ -1,9 +1,4 @@
-from rbv.filters.match_paths import (
-    single_path,
-    match_single_path,
-    match_list_path,
-    match_file_paths,
-)
+from rbv.filters.match_paths import match_single_path, match_list_path
 import os.path
 
 # TODO make fixture that creates and destroys a fake file structure

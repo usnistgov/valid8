@@ -2,7 +2,7 @@ from collections import defaultdict
 
 import yaml
 
-from . import actions, filters  # map_to_func depends on this line
+from . import actions, filters  # map_to_func depends on this line # noqa: F401
 
 
 def parse_yml(filepath):
@@ -79,7 +79,7 @@ def act_on_rule(rule):
         action_output = action["func"](
             action["args"], context=context, **action["kwargs"]
         )
-        action["output"], action["exceptions"], action["detail"] = action_output
+        action["output"], action["errors"] = action_output
 
     # determining whole rule output
     rule["output"] = all([action["output"] for action in rule["actions"]])

@@ -2,9 +2,9 @@
 
 - Development
     - [x] Return codes mirror rules validity
-    - [ ] Make `rules_d` a uniform data structure holding context
+    - [x] Make `rules_d` a uniform data structure holding context
     - [x] Get rid of the `Context` class (?) 
-    - [ ] Get rid of the `Output` class
+    - [x] Get rid of the `Output` class
     - [x] Centralize exceptions (?)
     - [ ] Handle incorrect syntax or missing rules
     - [ ] Add actions
@@ -13,6 +13,7 @@
     - [ ] Find a pretty way to store and output errors
     - [ ] Output pretty summaries (possible verbosity levels)
     - [ ] Add logging
+    - [ ] Consider making `rules_d` from a class or combination of classes
     - [ ] Support adding actions/filters from other namespaces
 - Unit tests
     - Add: 
