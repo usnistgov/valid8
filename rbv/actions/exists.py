@@ -31,7 +31,7 @@ def exists(_boolean, contexts):
     """
     result = list()
 
-    def single_check(context, type=None):
+    def single_check(context):
         cpath = pathlib.Path(context.filepath)
         if cpath.exists():
             return Output(output=True, exceptions=[])

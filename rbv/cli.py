@@ -14,9 +14,7 @@ def cli_input():
 
 
 def cli_action(args):
-    parsed_rules = engine.parse_yml(args.ymlmarkup)
-    rules_d = engine.extract_rules(parsed_rules)
-    engine.act_on_rules(rules_d)
+    rules_d = engine.end_to_end(args.ymlmarkup)
 
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
@@ -25,6 +23,13 @@ def cli_action(args):
             print("    ", context.filepath)
         for action in rule_content["actions"]:
             print("  Action: ", action["name"], action["output"])
+        print("Rule output: ", rule_content["output"])
+
+    combined_output = engine.rules_output(rules_d)
+    print("--\nCombined rules output: ", combined_output)
+
+    # exiting with 0 or 1 depending on the combined rules output
+    raise SystemExit(0 if combined_output else 1)
 
 
 def main():

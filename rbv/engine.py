@@ -11,8 +11,8 @@ def parse_yml(filepath):
     return rules_list
 
 
-def map_to_func(type, name):
-    return getattr(globals()[type], name)
+def map_to_func(type_str, name):
+    return getattr(globals()[type_str], name)
 
 
 # input dict (from parsing file)
@@ -31,13 +31,13 @@ def extract_rules(rules_list):
 
             # Setting args and kwargs for later unpacking
             if type(func_contents) is dict:
-                func_dict["kwargs"] = func_contents
                 func_dict["args"] = []
+                func_dict["kwargs"] = func_contents
             elif type(func_contents) is list:
                 func_dict["args"] = func_contents
                 func_dict["kwargs"] = {}
             else:
-                func_dict["args"] = [func_contents]
+                func_dict["args"] = func_contents
                 func_dict["kwargs"] = {}
 
             extracted_functions.append(func_dict)
@@ -61,6 +61,12 @@ def act_on_rules(rules):
         output.append(rule_output)
 
 
+def rules_output(rules):
+    # determining combined rules output
+    rules_output = all([rule["output"] for rule in rules.values()])
+    return rules_output
+
+
 def act_on_rule(rule):
     contexts = list()
     # get context from filters
@@ -75,15 +81,22 @@ def act_on_rule(rule):
         )
         action["output"], action["exceptions"], action["detail"] = action_output
 
+    # determining whole rule output
+    rule["output"] = all([action["output"] for action in rule["actions"]])
+
+
+def end_to_end(filepath):
+    yml_contents = parse_yml(filepath)
+    rules_d = extract_rules(yml_contents)
+    act_on_rules(rules_d)
+    return rules_d
+
 
 if __name__ == "__main__":
 
     filename = "examples/single_rule_single_action.yml"
-    execution_dir = "."  # cannot change this for now
 
-    yml_contents = parse_yml(filename)
-    rules_d = extract_rules(yml_contents)
-    act_on_rules(rules_d)
+    rules_d = end_to_end(filename)
 
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
@@ -92,3 +105,6 @@ if __name__ == "__main__":
             print("    ", context.filepath)
         for action in rule_content["actions"]:
             print("  Action: ", action["name"], action["output"])
+        print("Rule output: ", rule_content["output"])
+
+    print("Combined rules output: ", rules_output(rules_d))
