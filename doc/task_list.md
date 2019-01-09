@@ -1,0 +1,45 @@
+# Task list 
+
+- Development
+    - [x] Return codes mirror rules validity
+    - [ ] Make `rules_d` a uniform data structure holding context
+    - [ ] Get rid of the `Context` class (?) 
+    - [ ] Get rid of the `Output` class
+    - [ ] Centralize exceptions (?)
+    - [ ] Handle incorrect syntax or missing rules
+    - [ ] Add actions
+        - [ ] Match action
+        - [ ] Count action
+    - [ ] Find a pretty way to store and output errors
+    - [ ] Output pretty summaries (possible verbosity levels)
+    - [ ] Add logging
+    - [ ] Support adding actions/filters from other namespaces
+- Unit tests
+    - Add: 
+        - [x] `test_engine.py`
+        - [ ] `test_cli.py`
+    - [ ] Test `rules_d` content and fields at multiple steps
+- Integration tests
+    - [ ] Find a way to list integration tests in pytest or other
+    - [ ] Add cases
+        - [ ] DSE
+            - [ ] Pass (single file)
+            - [ ] Fail (missing predictions)
+            - [ ] Pass (many files, including predictions)
+        - [ ] D3M TA1
+            - [ ] Pass (all files)
+            - [ ] Fail (missing file)
+        - [ ] Non-existing rules (error message)
+- CLI
+    - [x] Basic callable CLI
+    - [ ] Enable setting directory target
+    - [ ] Enable just linting
+    - [ ] Enable setting verbosity
+- Packaging
+    - [ ] Docker file 
+    - [ ] `setup.cfg`
+- Documentation
+    - [ ] Make a diagram of the 3 steps of the rbv
+    - [ ] Document how to add filter or action rules
+    - [ ] Make a usage README
+    - [ ] Add docstrings 
