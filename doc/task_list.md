@@ -9,7 +9,7 @@
     - [ ] Handle incorrect syntax or missing rules
     - [ ] Add actions
         - [ ] Match action
-        - [ ] Count action
+        - [x] Count action
     - [ ] Find a pretty way to store and output errors
     - [ ] Output pretty summaries (possible verbosity levels)
     - [ ] Add logging
@@ -18,7 +18,7 @@
 - Unit tests
     - Add: 
         - [x] `test_engine.py`
-        - [ ] `test_exists.py` (currently empty)
+        - [x] `test_exists.py` (currently empty)
         - [ ] `test_cli.py`
     - [ ] Test `rules_d` content and fields at multiple steps
 - Integration tests
@@ -45,6 +45,8 @@
     - [x] Document how to add filter or action rules
     - [x] Make a usage README
     - [ ] Add docstrings 
+        - [x] Added docstrings in `actions.exists` 
+    - [ ] Set up Sphinx and automatic doc generated from docstrings
  - CI 
     - [x] Make format and quality checks automatic on each commit
     

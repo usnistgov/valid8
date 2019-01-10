@@ -1,3 +1,3 @@
-__all__ = ["exists"]
+__all__ = ["exists", "count"]
 
-from .exists import exists
+from .exists import exists, count
