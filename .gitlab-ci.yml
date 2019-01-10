@@ -12,7 +12,7 @@ build:
 test:
   stage: test
   script:
-    - make coverage
+    - make devdep coverage
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
@@ -20,5 +20,5 @@ test:
 quality:
   stage: test
   script:
-    - make quality
+      - make devdep quality
   allow_failure: true
