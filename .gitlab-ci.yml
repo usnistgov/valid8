@@ -1,24 +1,30 @@
 image: python:3.7
 
 stages:
-  - build
   - test
+  - quality
+  - other_versions
 
-build:
-  stage: build
-  script:
-    - make install
+before_script:
+  - pip install tox
 
 test:
   stage: test
-  script:
-    - make devdep coverage
+  script: tox -e py37
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
 
-quality:
-  stage: test
-  script:
-      - make devdep quality
-  allow_failure: true
+lint:
+  stage: quality
+  script: tox -e lint
+
+formatting:
+  stage: quality
+  script: tox -e formatting
+
+py36:
+  stage: other_versions
+  image: python:3.6
+  script: tox -e 36
+  when: manual
