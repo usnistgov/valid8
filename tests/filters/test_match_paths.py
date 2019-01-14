@@ -3,8 +3,8 @@ import os.path
 
 # TODO make fixture that creates and destroys a fake file structure
 
-simple_files = ["Makefile", "rbv", "test", "README.md"]
-patterns = {"initpy": "test/*/__init__.py", "py": "**/*.py"}
+simple_files = ["Makefile", "rbv", "tests", "README.md"]
+patterns = {"initpy": "tests/*/__init__.py", "py": "**/*.py"}
 
 
 def match_base_checks(result):
