@@ -1,6 +1,6 @@
 import pathlib
 
-from rbv.exceptions import NoSuchFile, IncorrectFileCount
+from ..exceptions import NoSuchFile, IncorrectFileCount
 
 
 def _file_exists(filepath):
