@@ -148,6 +148,26 @@ def act_on_rule(rule):
     rule["output"] = all([action["output"] for action in rule["actions"]])
 
 
+def print_summary(rules_structure):
+    """
+    Prints a summary of the completed validation to stdout.
+
+    Args:
+        rules_structure(dict): the structure representing rules.
+    """
+    for rule_name, rule_content in rules_structure.items():
+        print("Rule: ", rule_name)
+        print("  Context:")
+        for context in rule_content["context"]:
+            print("    ", context)
+        for action in rule_content["actions"]:
+            print("  Action: ", action["name"], action["output"])
+        print("Rule output: ", rule_content["output"])
+
+    combined_output = rules_output(rules_structure)
+    print("--\nCombined rules output: ", combined_output)
+
+
 def rules_output(rules_structure):
     """
     Determines the total rules output after the filters and actions after `act_on_rules`

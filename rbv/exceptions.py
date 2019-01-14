@@ -13,3 +13,7 @@ class IncorrectFileCount(BaseValidationError):
         self.requested_count = requested_count
         self.files_found = files_found
         self.message = f"{len(files_found)} files found, {requested_count} requested."
+
+
+class UnknownRule(BaseValidationError):
+    """"""
