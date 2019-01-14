@@ -8,7 +8,7 @@ def main():
     Main package function, reads CLI args and launches program.
     """
     args = define_cli()
-    cmd_run_validation(args)
+    args.func(args)
 
 
 def define_cli():
@@ -52,7 +52,7 @@ def define_cli():
 
     add_protocol_subparser(
         "lint",
-        dict(help="Check the rules against the directory structure"),
+        dict(help="Lint the yaml configuration file"),
         func=cmd_run_lint,
         arguments=base_args,
     )
