@@ -105,7 +105,7 @@ def test_extracted_rules_with_expected_output(rules_list, extracted_rules):
     [("filters", "path", filters.path), ("actions", "exists", actions.exists)],
 )
 def test_map_to_func(type_str, name, expected):
-    assert engine.map_to_func(type_str, name) == expected
+    assert engine.retrieve_associated_function(type_str, name) == expected
 
 
 @pytest.mark.parametrize("type_str", ["filters", "actions"])
@@ -115,7 +115,7 @@ def test_map_to_func_auto(type_str):
     func_map = {k: getattr(type_module, k) for k in func_name_list}
 
     for name, func in func_map.items():
-        assert engine.map_to_func(type_str, name) == func
+        assert engine.retrieve_associated_function(type_str, name) == func
 
 
 @pytest.mark.parametrize(

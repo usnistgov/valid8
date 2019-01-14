@@ -14,7 +14,7 @@ def cli_input():
 
 
 def cli_action(args):
-    rules_d = engine.end_to_end(args.ymlmarkup)
+    rules_d = engine.process_configured_rules(args.ymlmarkup)
 
     for rule_name, rule_content in rules_d.items():
         print("Rule: ", rule_name)
