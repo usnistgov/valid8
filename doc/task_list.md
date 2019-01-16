@@ -19,15 +19,17 @@
     - Add: 
         - [x] `test_engine.py`
         - [x] `test_exists.py` (currently empty)
-        - [ ] `test_cli.py`
+        - [x] `test_cli.py`
+    - [ ] Refactor `test_cli.py`
     - [ ] Test `rules_d` content and fields at multiple steps
+    - [ ] Improve coverage
 - Integration tests
-    - [ ] Find a way to list integration tests in pytest or other
+    - [x] Find a way to list integration tests in pytest or other
     - [ ] Add cases
-        - [ ] DSE
-            - [ ] Pass (single file)
-            - [ ] Fail (missing predictions)
-            - [ ] Pass (many files, including predictions)
+        - [x] DSE
+            - [x] Pass (single file)
+            - [x] Fail (missing predictions)
+            - [x] Pass (many files, including predictions)
         - [ ] D3M TA1
             - [ ] Pass (all files)
             - [ ] Fail (missing file)
@@ -35,8 +37,8 @@
 - CLI
     - [x] Basic callable CLI
     - [ ] Enable setting directory target
-    - [ ] Enable just linting
-    - [ ] Enable setting verbosity
+    - [x] Enable just linting
+    - [x] Enable setting verbosity 
 - Packaging
     - [ ] Docker file 
     - [x] `setup.cfg`
@@ -46,7 +48,9 @@
     - [x] Make a usage README
     - [ ] Add docstrings 
         - [x] Added docstrings in `actions.exists` 
+        - [x] Added docstrings in `cli`, `engine`
     - [ ] Set up Sphinx and automatic doc generated from docstrings
  - CI 
     - [x] Make format and quality checks automatic on each commit
+    - [x] Configure tox to centralize and run tests and checks
     
