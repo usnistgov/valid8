@@ -1,6 +1,7 @@
 import pytest
 
-from rbv.actions.exists import _file_exists, exists, count
+from rbv.actions.exists import _file_exists, exists
+from rbv.actions.count import count
 
 
 def test_file_existence(tmp_path):
