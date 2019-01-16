@@ -89,9 +89,6 @@ def scenario_config_conditions(request, tmp_path):
         f_path.parent.mkdir(parents=True, exist_ok=True)
         f_path.touch()
 
-    # scenario = request.param.copy()
-    # scenario.filepath = (TEST_EXEC_DIR / original_filepath).as_posix()
-
     os.chdir(requested_dir.as_posix())
 
     yield ScenarioConfig(
