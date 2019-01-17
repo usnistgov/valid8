@@ -1,5 +1,5 @@
 from ..exceptions import IncorrectFileCount
-from .exists import _file_exists
+from ..file_utils import filepath_exists
 
 
 def count(n, context):
@@ -17,7 +17,7 @@ def count(n, context):
     Possible errors: single IncorrectFileCount
     """
 
-    existing_files = [filepath for filepath in context if _file_exists(filepath)]
+    existing_files = [filepath for filepath in context if filepath_exists(filepath)]
     if len(existing_files) != n:
         return False, [IncorrectFileCount(n, existing_files)]
 

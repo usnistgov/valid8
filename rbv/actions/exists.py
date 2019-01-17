@@ -1,21 +1,5 @@
-import pathlib
-
 from ..exceptions import NoSuchFile
-
-
-def _file_exists(filepath):
-    """
-    Checks for file existence. Works for any file type, including directories.
-    Uses pathlib library.
-
-    Args:
-        filepath(str): File path to ttest for existence
-
-    Returns: (bool) whether the file exists
-
-    """
-    cpath = pathlib.Path(filepath)
-    return cpath.exists()
+from ..file_utils import filepath_exists
 
 
 def exists(_boolean, context):
@@ -34,9 +18,9 @@ def exists(_boolean, context):
     result = list()
 
     def single_check(filepath):
-        if _file_exists(filepath):
+        if filepath_exists(filepath):
             return {"output": True, "errors": []}
-        return {"output": False, "errors": [NoSuchFile(target=filepath)]}
+        return {"output": False, "errors": [NoSuchFile(filepath=filepath)]}
 
     for filepath in context:
         result.append(single_check(filepath))

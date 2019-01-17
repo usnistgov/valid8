@@ -3,7 +3,6 @@ import yaml
 
 from rbv import engine, actions, filters
 
-
 rules_list1 = [
     {
         "rulename": "predictions_file",

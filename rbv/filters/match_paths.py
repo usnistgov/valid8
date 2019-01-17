@@ -1,26 +1,13 @@
-from glob import glob
-
-
-def single_path(filepath):
-    # if is exact path, e.g. no *, also add Path(filepath)
-    # replace this when '*' is not the only regex char and when escaping is introduced.
-    def is_exact_path(filepath):
-        return "*" not in filepath
-
-    if is_exact_path(filepath):
-        return [filepath]
-
-    glob_matches = glob(filepath, recursive=True)
-    return [match for match in glob_matches]
+from ..file_utils import pattern_matches
 
 
 def match_single_path(filepath, context):
-    context.extend(single_path(filepath))
+    context.extend(pattern_matches(filepath))
 
 
 def match_list_path(filepath_list, context):
     for fp in filepath_list:
-        context.extend(single_path(fp))
+        context.extend(pattern_matches(fp))
 
 
 def match_file_paths(file_filepaths, context):

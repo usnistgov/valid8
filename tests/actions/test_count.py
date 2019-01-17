@@ -1,31 +1,6 @@
 import pytest
 
 from rbv.actions.count import count
-from rbv.actions.exists import exists
-
-
-context_data_for_exists = [
-    (["real_dir"], True),
-    (["real_dir", "real_file"], True),
-    (["fake_file"], False),
-    (["fake_file", "real_dir", "real_file"], False),
-    (["fake_file", "fake_file"], False),
-    ([], True),
-]
-
-
-@pytest.fixture(params=context_data_for_exists)
-def data_for_exists(request, files):
-    translated_list = [files[e] for e in request.param[0]]
-    return translated_list, request.param[1]
-
-
-@pytest.mark.parametrize("_boolean", (True, False, "optional"))
-def test_exists(data_for_exists, _boolean):
-    context, expected = data_for_exists
-    output, errors = exists(_boolean, context)
-    assert output is expected
-    assert output or len(errors) != 0
 
 
 context_data_for_count = [
