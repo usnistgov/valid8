@@ -1,4 +1,5 @@
-__all__ = ["exists", "count"]
+__all__ = ["count", "exists", "match"]
 
-from .exists import exists
 from .count import count
+from .exists import exists
+from .match import match

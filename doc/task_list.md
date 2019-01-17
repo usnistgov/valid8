@@ -7,20 +7,24 @@
     - [x] Get rid of the `Output` class
     - [x] Centralize exceptions (?)
     - [ ] Handle incorrect syntax or missing rules
-    - [ ] Add actions
-        - [ ] Match action
+    - [x] Add actions
+        - [x] Match action
         - [x] Count action
     - [ ] Find a pretty way to store and output errors
     - [ ] Output pretty summaries (possible verbosity levels)
     - [ ] Add logging
     - [ ] Consider making `rules_d` from a class or combination of classes
     - [ ] Support adding actions/filters from other namespaces
+    - [ ] Rename paths/match paths filters (e.g. :find:)
 - Unit tests
     - Add: 
         - [x] `test_engine.py`
-        - [x] `test_exists.py` (currently empty)
+        - [x] `test_exists.py` 
         - [x] `test_cli.py`
+        - [x] `test_match.py`
     - [ ] Refactor `test_cli.py`
+    - [x] Find a way to share fixtures
+    - [x] Separate tests for `actions.count` from `actions.exists`
     - [ ] Test `rules_d` content and fields at multiple steps
     - [ ] Improve coverage
 - Integration tests

@@ -38,6 +38,12 @@ def config_conditions(request):
     os.chdir(original_dir.as_posix())
 
 
+@pytest.fixture
+def full_path(tmp_path, request):
+    original_filepath = Path(request.param)
+    return (TEST_EXEC_DIR / original_filepath).as_posix()
+
+
 @pytest.mark.smoke
 def test_expected_output(config_conditions, capsys):
     test_args = ["test", "validate", config_conditions.filepath]
@@ -117,3 +123,43 @@ def test_with_fake_structure(scenario_config_conditions, capsys):
                 assert out.strip().endswith("False")
 
             assert not out.strip().endswith("sanitycheck")
+
+
+ds_single_pipeline = [
+    "metadata.yml",
+    "predictions/pipelineID/predictions.csv",
+    "pipelines/pipelineID.json",
+    "executables/pipelineID.sh",
+]
+ds_sp_extra_predictions = ds_single_pipeline + ["pipelines/other_pipelineID.json"]
+ds_sp_missing_exec = ds_single_pipeline[:-1]
+ds_sp_extra_exec = ds_single_pipeline + ["executables/pipelineID"]
+
+
+@pytest.mark.parametrize(
+    "dirstructure, expected",
+    [
+        (ds_single_pipeline, True),
+        (ds_sp_extra_predictions, False),
+        (ds_sp_missing_exec, False),
+        (ds_sp_extra_exec, False),
+    ],
+    indirect=["dirstructure"],
+)
+@pytest.mark.parametrize("full_path", ["examples/d3m_ta1.yml"], indirect=True)
+def test_d3m_ta1(dirstructure, full_path, expected, capsys):
+    test_args = ["test", "validate", full_path]
+    with patch.object(sys, "argv", test_args):
+        try:
+            cli.main()
+        except SystemExit as sysexit:
+            out, err = capsys.readouterr()
+            if expected is True:
+                assert sysexit.code == 0
+                assert out.strip().endswith("True")
+            else:
+                assert sysexit != 0
+                assert out.strip().endswith("False")
+
+            assert not out.strip().endswith("sanitycheck")
+    pass

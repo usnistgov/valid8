@@ -1,22 +1,22 @@
 - rulename: metadata
   filters:
-    single_path: metadata.yml
+    path: metadata.yml
   actions:
     exists: true
 - rulename: pipeline_file
   filters:
-    single_path: pipelines/*.json
+    path: pipelines/*.json
   actions:
     count: 1
 - rulename: predictions_file
   filters:
-    single_path: predictions/*/predictions.csv
+    path: predictions/*/predictions.csv
   actions:
     count: 1
-    match: pipelines/$DIRNAME/*.json
+    match: pipelines/{DIR_NAME}.json
 - rulename: executable_file
   filters:
-    single_path: /executables/*.*
+    path: executables/*
   actions:
     count: 1
-    match: pipelines/$FILENAME_NOEXT/*.json
+    match: pipelines/{FILENAME_NOEXT}.json
