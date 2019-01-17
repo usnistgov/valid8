@@ -8,7 +8,7 @@ def count(n, context):
 
     Args:
         n(int): Exact requested number of files.
-        context(list):
+        context(list): the filtered context, e.g. all files to apply this rule to.
 
     Returns: tuple
             (True, []) if exactly `n` existing files from context were found

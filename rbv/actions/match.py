@@ -10,7 +10,31 @@ from ..file_utils import pattern_exists
 # 3) check whether there is a file matching that pattern
 #
 def match(match_pattern, context):
-    """"""
+    """
+    Action `match` checks that files represented by a pattern are
+    present for every context item.
+
+    In addition to syntax recognized by glob, the following variables are
+    recognized in the pattern for each context item:
+        * {DIR_NAME}: the directory name, e.g. `b` for `a/b/c.txt`
+        * {DIR_PATH}: the directory path for a context path, e.g. `a/b` for `a/b/c.txt`
+        * {FILENAME_NOEXT}: the filename without the extension, e.g. `c` for `a/b/c.txt`
+        * {FILENAME}: the filename without the extension, e.g. `c.txt` for `a/b/c.txt`
+        * {FILEPATH}: the file path, e.g. `a/b/c.txt` for `a/b/c.txt`
+
+    Args:
+        match_pattern (str): pattern to check for, for each context item
+        context (list): the context (list of file paths) found by the filters
+
+    Returns:
+        tuple: (
+            output (boolean),
+            errors (list)
+        )
+
+    Possible errors:
+        :class:PatternNotFound for each pattern not found
+    """
     outputs = list()
     errors = list()
     for filepath in context:
@@ -18,20 +42,24 @@ def match(match_pattern, context):
         outputs.append(s_ouptut)
         errors.extend(s_errors)
 
-    # rv = (
-    #     all([r[0] for r in result]),
-    #     [error for errorlist in result[1] for error in errorlist],
-    # )
-    # print(type(rv), len(rv))
-    # print(rv)
-    # return (
-    #     all([r[0] for r in result]),
-    #     [error for errorlist in result[1] for error in errorlist],
-    # )
     return all(outputs), errors
 
 
 def single_match(match_pattern, context_filepath):
+    """
+    Checks that files matched by a single pattern are present.
+    Called by :func:`match`, has the same substitution variables
+    Args:
+        match_pattern: pattern to check for
+        context_filepath: a single context item (i.e. filepath),
+                          can contain substitution keys, see :func:`match`
+
+    Returns:
+        tuple: (
+            output (boolean),
+            errors (list)
+        )
+    """
     variables = context_variables(context_filepath)
     interpreted_pattern = match_pattern.format(**variables)
     matches = pattern_exists(interpreted_pattern)
@@ -46,6 +74,15 @@ def single_match(match_pattern, context_filepath):
 
 
 def context_variables(context_filepath):
+    """
+    Context file path subsitutions for :func:`match`
+
+    Args:
+        context_filepath: the file path that may contain substition keys
+
+    Returns:
+        dict: of all the substitution keys and their values
+    """
     context_path = Path(context_filepath)
     variables = {
         "DIR_NAME": context_path.parent.name,

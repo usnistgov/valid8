@@ -7,7 +7,7 @@ def exists(_boolean, context):
 
     Args:
         _boolean: Placeholder for now. Holds the `True` value from the `exists: True` statement
-        context: The dict holding the filtered context, e.g. all files to apply this rule to.
+        context (list): the filtered context, e.g. all files to apply this rule to.
 
     Returns: tuple
             (True, []) if all files were found.
