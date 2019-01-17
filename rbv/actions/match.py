@@ -4,11 +4,6 @@ from ..exceptions import PatternNotFound
 from ..file_utils import pattern_exists
 
 
-# for every single context item
-# 1) set certain variables, e.g. $DIRNAME
-# 2) substitute those variables in match_pattern
-# 3) check whether there is a file matching that pattern
-#
 def match(match_pattern, context):
     """
     Action `match` checks that files represented by a pattern are
@@ -53,6 +48,11 @@ def single_match(match_pattern, context_filepath):
         match_pattern: pattern to check for
         context_filepath: a single context item (i.e. filepath),
                           can contain substitution keys, see :func:`match`
+
+    For the single context item:
+    1) compute certain variables, e.g. {DIR_NAME}
+    2) substitute those variables in match_pattern
+    3) check whether there is a file matching that pattern
 
     Returns:
         tuple: (
