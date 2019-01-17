@@ -2,7 +2,7 @@
 
 `rbv` will check whether a directory structure meets a list of rules defined
  in a configuration `rules.yml` file.
- 
+
 ## Installation
 
 ```bash
@@ -11,10 +11,11 @@ $ cd rules-based-validator
 $ make install
 ```
 
-## Usage 
+## Usage
 
 ```bash
-$ rbv rules.yml
+$ rbv validate rules.yml
+$ rbv lint rules.yml
 ```
 
 An example `rules.yml`
@@ -31,11 +32,11 @@ An example `rules.yml`
 
 ## Filters and Actions
 
-Each rule is described by two different concepts: 
+Each rule is described by two different concepts:
 * One or more *filters* will select the files to which the rule will be applied.
-* One or more *actions* will be taken on the selected files. 
+* One or more *actions* will be taken on the selected files.
 
-Each rule is considered valid if all actions taken on the files 
+Each rule is considered valid if all actions taken on the files
 selected by the filters returned a 0 exit code (success).
 
 ### Filters
@@ -55,15 +56,40 @@ N.B. Compatible pattern matching expressions: anything compatible with `glob`
 |  Name   | Usage         | Description                                        | Status  |  
 |---------|---------------|----------------------------------------------------|---|
 | exists  | `exists: True`| Selected files exist (e.g. a minimum of 1 found)   | Stable  |   
-| count   | `count: n`    | Find exactly `n` selected files.                   | Planned  |   
-| match   | ``            | For each selected file, find another matched file  | Planned  |   
+| count   | `count: n`    | Find exactly `n` selected files.                   | Stable  |   
+| match   | `match: {DIRNAME}/otherfile.txt`            | For each selected file, find another matched file  | Stable  |   
+
+#### Substitutions
+
+*N.B.* Only available in `action.match`
+
+In some rules, it may be necessary to use information about the filtered files to make a determination on an action. The substitutions keys below are available for use in the parameter of the `match` action.
+
+For example, the following will check that every file matching `predictions/*/predictions.csv` has a corresponding `JSON` file with the original directory name as its filename.
+
+```yaml
+- rulename: predictions_file
+  filters:
+    path: predictions/*/predictions.csv
+  actions:
+    match: pipelines/{DIR_NAME}.json
+```
+
+Examples are based on the file path `a/b/c.txt`
+
+| Substitution keys  |   Description                      |Example value|
+|--------------------|------------------------------------|-------------|
+| `{DIR_NAME}`       |  the directory name                | `b`         |
+| `{DIR_PATH}`       |  the directory path                | `a/b`       |
+| `{FILENAME_NOEXT}` | the filename without the extension | `c`         |
+| `{FILENAME}`       | the filename with the extension    | `c.txt`     |
+| `{FILEPATH}`       | the file path                      | `a/b/c.txt` |
 
 
 ### Adding a custom filter or action
 
-1. Add the code in `filters/` or `actions/` respectively. 
+1. Add the code in `filters/` or `actions/` respectively.
 2. Each filter or action must be a function and must include the `context` parameter in the signature.
-3. In the `filters/` or `actions/` `__init__.py`, add an import to add the new function under the 
-`filters` or `actions` module. 
+3. In the `filters/` or `actions/` `__init__.py`, add an import to add the new function under the
+`filters` or `actions` module.
 Name must be unique
-

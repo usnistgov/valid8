@@ -14,7 +14,7 @@ def match(match_pattern, context):
         * {DIR_NAME}: the directory name, e.g. `b` for `a/b/c.txt`
         * {DIR_PATH}: the directory path for a context path, e.g. `a/b` for `a/b/c.txt`
         * {FILENAME_NOEXT}: the filename without the extension, e.g. `c` for `a/b/c.txt`
-        * {FILENAME}: the filename without the extension, e.g. `c.txt` for `a/b/c.txt`
+        * {FILENAME}: the filename with the extension, e.g. `c.txt` for `a/b/c.txt`
         * {FILEPATH}: the file path, e.g. `a/b/c.txt` for `a/b/c.txt`
 
     Args:
