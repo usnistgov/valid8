@@ -15,6 +15,7 @@ tests:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
+  coverage: '/^TOTAL\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d+\%)$/'
 
 lint:
   stage: quality
@@ -32,7 +33,11 @@ py36:
 
 pages:
   stage: deploy
+  dependencies:
+    - tests
   script:
+    - mkdir -p doc/_static/coverage
+    - cp -r $CI_PROJECT_DIR/htmlcov/* doc/_static/coverage/
     - tox -e doc
     - mv doc/_build public
   artifacts:
