@@ -15,7 +15,7 @@ tests:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
-  coverage: '/^TOTAL\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d+\%)$/'
+  coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
 
 lint:
   stage: quality
