@@ -11,24 +11,30 @@ def match(match_pattern, context):
 
     In addition to syntax recognized by glob, the following variables are
     recognized in the pattern for each context item:
+
         * {DIR_NAME}: the directory name, e.g. `b` for `a/b/c.txt`
         * {DIR_PATH}: the directory path for a context path, e.g. `a/b` for `a/b/c.txt`
         * {FILENAME_NOEXT}: the filename without the extension, e.g. `c` for `a/b/c.txt`
         * {FILENAME}: the filename with the extension, e.g. `c.txt` for `a/b/c.txt`
         * {FILEPATH}: the file path, e.g. `a/b/c.txt` for `a/b/c.txt`
 
+    Possible errors:
+        :class:PatternNotFound for each pattern not found
+
+    Example:
+
+        * If a match is found for every context item:
+            ``returns (True, [])``
+        * If a match is found for all but one context item:
+            ``returns (False, [PatternNotFound()])``
+
     Args:
         match_pattern (str): pattern to check for, for each context item
         context (list): the context (list of file paths) found by the filters
 
     Returns:
-        tuple: (
-            output (boolean),
-            errors (list)
-        )
+        tuple: (output boolean, error list)
 
-    Possible errors:
-        :class:PatternNotFound for each pattern not found
     """
     outputs = list()
     errors = list()
@@ -43,22 +49,22 @@ def match(match_pattern, context):
 def single_match(match_pattern, context_filepath):
     """
     Checks that files matched by a single pattern are present.
-    Called by :func:`match`, has the same substitution variables
-    Args:
-        match_pattern: pattern to check for
-        context_filepath: a single context item (i.e. filepath),
-                          can contain substitution keys, see :func:`match`
+    Called by :func:`match`, supports the same substitution variables
+    in ``context_filepath``.
 
     For the single context item:
-    1) compute certain variables, e.g. {DIR_NAME}
-    2) substitute those variables in match_pattern
-    3) check whether there is a file matching that pattern
+
+    #. compute certain variables, e.g. {DIR_NAME}
+    #. substitute those variables in match_pattern
+    #. check whether there is a file matching that pattern
+
+    Args:
+        match_pattern (str): pattern to check for
+        context_filepath (str): a single context item (i.e. filepath)
 
     Returns:
-        tuple: (
-            output (boolean),
-            errors (list)
-        )
+        tuple: (output boolean, error list)
+
     """
     variables = context_variables(context_filepath)
     interpreted_pattern = match_pattern.format(**variables)

@@ -1,4 +1,3 @@
-# Rules Based Validator
 
 `rbv` will check whether a directory structure meets a list of rules defined
  in a configuration `rules.yml` file.

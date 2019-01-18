@@ -11,6 +11,7 @@ def process_configured_rules(filepath):
     Processes the user-defined rules.
     Interprets the user-defined rules, maps then to functions,
     executes the filters and actions.
+
     Args:
         filepath: yml file with the configured rules. (str or pathlib.Path)
 
@@ -49,12 +50,12 @@ def extract_rules(parsed_rules):
         parsed_rules (list): the rules parsed from the user-defined configuration file.
 
     Returns:
-        dict: `rules_structure`,
-        a nested structure containing every information required to
-        apply filters and actions to the directory structure, including the
-        mapping to the functions to use.
-        Dictionary of rules. A rule is iteslf a dictionary with the following keys:
-        (filters, actions), both of which are lists of dictionaries.
+        dict: rules_structure,
+            a nested structure containing every information required to
+            apply filters and actions to the directory structure, including the
+            mapping to the functions to use.
+            Dictionary of rules. A rule is iteslf a dictionary with the following keys:
+            (filters, actions), both of which are lists of dictionaries.
 
     """
 
@@ -128,7 +129,7 @@ def act_on_rule(rule):
 
     Args:
         rule (dict): the structure representing the rule,
-        found as a value of `rules_structure`
+            found as a value of `rules_structure`
 
     """
     context = list()

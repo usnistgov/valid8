@@ -7,7 +7,7 @@ def main():
     """
     Main package function, reads CLI args and launches program.
     """
-    parser = define_cli()
+    parser = define_parser()
     args = parser.parse_args()
     if hasattr(args, "func") and args.func is not None:
         args.func(args)
@@ -15,9 +15,10 @@ def main():
         parser.print_help()
 
 
-def define_cli():
+def define_parser():
     """
     Defines accepted CLI syntax and the actions to take for command and args.
+
     Returns:
         argparse parser
 

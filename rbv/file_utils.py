@@ -7,12 +7,13 @@ def pattern_matches(pattern):
     Uses glob to find all the file paths that `pattern` may match.
     DOES NOT garantee file existence.
 
+    If not using regex/wildcards, will return [pattern], whether or not `pattern` exists.
+
     Args:
         pattern (str or Path-like): file path, can include wildcards
 
     Returns:
-        list: of pattern matches.
-        If not using regex/wildcards, will return [pattern], whether or not `pattern` exists.
+        list: file paths that match the pattern
     """
     # if is exact path, e.g. no *, also add Path(filepath)
     # replace this when '*' is not the only regex char and when escaping is introduced.
@@ -34,7 +35,8 @@ def filepath_exists(filepath):
     Args:
         filepath(str): File path to test for existence
 
-    Returns: (bool) whether the file exists
+    Returns:
+        bool: True if the file exists
 
     """
     cpath = pathlib.Path(filepath)
@@ -49,7 +51,8 @@ def pattern_exists(pattern):
         pattern (str or Path-like): file path, can include wildcards
 
     Returns:
-        list: of existing pattern matches.
+        list: existing pattern matches.
+
     """
     matches = pattern_matches(pattern)
     return [f for f in matches if filepath_exists(f)]

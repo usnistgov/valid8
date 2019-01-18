@@ -5,7 +5,7 @@ from rbv import cli
 
 @pytest.fixture(scope="module")
 def parser():
-    return cli.define_cli()
+    return cli.define_parser()
 
 
 # test that incorrect args raise Exception

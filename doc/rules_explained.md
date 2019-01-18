@@ -4,16 +4,16 @@ TODO got this page from the wiki, it's out of date
 
 ## Matching
 
-```yml
+```yaml
 - path_matches: "path/to/file.ext"
 ```
 
-```yml
+```yaml
 - path_matches:
     path: "path/to/file.ext"
 ```
 
-```yml
+```yaml
 - path_matches: FILEPATH
   exists: true
 ```
@@ -24,16 +24,16 @@ TODO got this page from the wiki, it's out of date
   * Path exists at FILEPATH
 
 ### Exists and is file
-```yml
+```yaml
 - file_exists: FILEPATH
 ```
 
-```yml
+```yaml
 - path_exists: FILEPATH
   type: file
 ```
 
-```yml
+```yaml
 - path: FILEPATH
   type: file
   exists: true
@@ -49,16 +49,16 @@ NB: we can assume that `exists: true` is the default desired specification and o
 
 ### Directory existence
 
-```yml
+```yaml
 - dir_exists: FILEPATH
 ```
 
-```yml
+```yaml
 - path_exists: FILEPATH
   type: dir
 ```
 
-```yml
+```yaml
 - path: FILEPATH
   type: dir
   exists: true
@@ -71,24 +71,24 @@ NB: we can assume that `exists: true` is the default desired specification and o
   * FILEPATH is a directory
 
 ### Multiple file existence
-```yml
+```yaml
 - exists:
     - source_file: SOURCEFILE.txt
   type: dir
 ```
 
-```yml
+```yaml
 - paths:
       - FILEPATH1
       - FILEPATH2
   type: file
 ```
 
-```yml
+```yaml
 - path_matches:  x/*.ext
 ```
 
-```yml
+```yaml
 - path_matches_list:
     - x/*.ext
     - y/*.sh

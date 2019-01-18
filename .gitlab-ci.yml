@@ -3,7 +3,8 @@ image: python:3.7
 stages:
   - test
   - quality
-  - other_versions
+  - misc
+  - deploy
 
 before_script:
   - pip install tox
@@ -24,7 +25,16 @@ formatting:
   script: tox -e formatting
 
 py36:
-  stage: other_versions
+  stage: misc
   image: python:3.6
   script: tox -e 36
   when: manual
+
+pages:
+  stage: deploy
+  script:
+    - tox -e doc
+    - mv doc/_build public
+  artifacts:
+    paths:
+      - public

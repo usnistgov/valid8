@@ -4,17 +4,26 @@ from ..file_utils import filepath_exists
 
 def count(n, context):
     """
-    Action `count`
+    Action `count` checks that the context created by the filters
+    respects the cardinality ``n``.
 
     Args:
-        n(int): Exact requested number of files.
+        n(int): Requested number of files.
         context(list): the filtered context, e.g. all files to apply this rule to.
 
-    Returns: tuple
-            (True, []) if exactly `n` existing files from context were found
-            (False, error_list) if not.
+    Possible errors:
+        single :class:IncorrectFileCount
 
-    Possible errors: single IncorrectFileCount
+    Example:
+
+        * If the context matches the cardinality ``n``, e.g. 1 file for ``n==1`` or 7 ``n=='+'`:
+            ``returns (True, [])``
+        * If the context does not match the cardinality ``n``, e.g. 2 files for ``n==1``:
+            ``returns (False, [IncorrectFileCount()])``
+
+    Returns:
+        tuple: (output boolean, error list)
+
     """
 
     existing_files = [filepath for filepath in context if filepath_exists(filepath)]
