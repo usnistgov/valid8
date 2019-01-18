@@ -6,13 +6,8 @@
 Documentation for Rules Based Validation
 ****************************************
 
-.. image:: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/pipeline.svg
-   :target: gitrepo_
-.. image:: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/coverage.svg
-   :target: coverage_
-
-.. _gitrepo: https://gitlab.com/prometheuscomputing/rules-based-validator/commits/develop
-.. _coverage: https://prometheuscomputing.gitlab.io/rules-based-validator/_static/coverage/index.html
+.. include:: ../../README.rst
+   :end-line: 8
 
 .. toctree::
    :maxdepth: 2
@@ -21,7 +16,6 @@ Documentation for Rules Based Validation
    readme
    API_reference
    CLI_reference
-
 
 
 Indices and tables
