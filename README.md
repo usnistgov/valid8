@@ -1,7 +1,8 @@
 [![pipeline status](https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/pipeline.svg)][git_url]
-[![coverage report](https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/coverage.svg)][git_url]
+[![coverage report](https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/coverage.svg)][coverage_report]
 
 [git_url]: https://gitlab.com/prometheuscomputing/rules-based-validator/commits/develop
+[coverage_report]: https://prometheuscomputing.gitlab.io/rules-based-validator/_static/coverage/index.html
 
 `rbv` will check whether a directory structure meets a list of rules defined
 in a configuration `rules.yml` file.
