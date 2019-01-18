@@ -3,11 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Rules Based Validation
-**********************
+Documentation for Rules Based Validation
+****************************************
 
-Documentation
-=============
+.. image:: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/pipeline.svg
+   :target: gitrepo_
+.. image:: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/coverage.svg
+   :target: gitrepo_
+
+.. _gitrepo: https://gitlab.com/prometheuscomputing/rules-based-validator/commits/develop
 
 .. toctree::
    :maxdepth: 2
@@ -15,13 +19,8 @@ Documentation
 
    readme
    API_reference
+   CLI_reference
 
-
-CLI Reference
-=============
-
-.. autoprogram:: rbv.cli:define_parser()
-    :prog: rbv
 
 
 Indices and tables
