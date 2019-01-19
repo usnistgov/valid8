@@ -1,3 +1,3 @@
-.. include:: ../../README.rst
-    :start-line: 8
 
+.. mdinclude:: ../../README.md
+    :start-line: 3
