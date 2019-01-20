@@ -92,6 +92,9 @@ def cmd_run_lint(args):
     Does not apply the rules (filters OR actions).
     When invalid, prints errors to stdout.
 
+    DOES NOT detect wrong arguments in filters or actions
+    because those are only used when applying the rule
+
     Args:
         args: argparse args
 
@@ -109,11 +112,13 @@ def cmd_run_lint(args):
         print("Yaml error in configuration file:", exc)
     except exceptions.UnknownRule as unk:
         print("Rule not recognized: ", unk)
+    except exceptions.ValidationSyntaxError as ws:
+        print("Syntax is incorrect", ws)
     else:
         print("The configuration file looks good")
         return True
 
-    return False
+    raise SystemExit(2)
 
 
 if __name__ == "__main__":

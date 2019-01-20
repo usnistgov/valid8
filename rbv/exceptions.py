@@ -23,11 +23,10 @@ class IncorrectFileCount(BaseValidationError):
 
 
 class UnknownRule(BaseValidationError):
-    """"""
-
-    def __init__(self, rule):
-        self.rule = rule
-        self.message = f"'{rule}' was not recognized."
+    def __init__(self, type, name):
+        self.type = type
+        self.name = name
+        self.message = f"{type}-{name} was not recognized."
         super().__init__(self.message)
 
 
@@ -37,6 +36,13 @@ class PatternNotFound(BaseValidationError):
         self.message = f"Pattern '{pattern}' not found."
         self.before_subs = before_subs
         super().__init__(self.message, self.before_subs)
+
+
+class ValidationSyntaxError(BaseValidationError):
+    def __init__(self, exception):
+        self.exception = exception
+        self.message = f"Found incorrect syntax. Exception raised {exception}"
+        super().__init__(self.message, self.exception)
 
 
 # TODO could dataclasses be useful here?

@@ -8,20 +8,19 @@ def parser():
     return cli.define_parser()
 
 
-# test that incorrect args raise Exception
 incorrect_args_data = [["wrongArgument"], [""]]
 
 
-# TODO the asserts here are not working
+def print_usage_asserts(error_code, stderr):
+    assert error_code is not None and error_code != 0
+    assert stderr.startswith("usage")
+
+
 @pytest.mark.parametrize("cli_args", incorrect_args_data)
-def test_incorrect_args(cli_args, parser):
+def test_incorrect_args(cli_args, parser, capsys):
     with pytest.raises(SystemExit) as sysexit:
         parser.parse_args(cli_args)
-        print(sysexit, sysexit.value)
-        assert sysexit.code is not None and sysexit != 0
-
-        # captured = capsys.readouterr()
-        # assert captured.startswith('Zusage')
+    print_usage_asserts(error_code=sysexit.value.code, stderr=capsys.readouterr()[1])
 
 
 mapping_func_data = [
