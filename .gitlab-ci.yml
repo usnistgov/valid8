@@ -31,14 +31,23 @@ py36:
   script: tox -e 36
   when: manual
 
-pages:
-  stage: deploy
+docs:
+  stage: misc
   dependencies:
     - tests
   script:
     - mkdir -p doc/_static/coverage
     - cp -r $CI_PROJECT_DIR/htmlcov/* doc/_static/coverage/
     - tox -e doc
+  artifacts:
+    paths:
+      - doc/_build
+
+pages:
+  stage: deploy
+  dependencies:
+    - docs
+  script:
     - mv doc/_build public
   artifacts:
     paths:
