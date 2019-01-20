@@ -1,18 +1,18 @@
-[![pipeline status](https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/pipeline.svg)][git_url]
-[![coverage report](https://gitlab.com/prometheuscomputing/rules-based-validator/badges/develop/coverage.svg)][coverage_report]
+[![pipeline][badge_pipeline]][git_url]
+[![coverage][badge_coverage]][coverage_report]
 
-[git_url]: https://gitlab.com/prometheuscomputing/rules-based-validator/commits/develop
+[badge_pipeline]: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/master/pipeline.svg
+[badge_coverage]: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/master/coverage.svg
+[git_url]: https://gitlab.com/prometheuscomputing/rules-based-validator
 [coverage_report]: https://prometheuscomputing.gitlab.io/rules-based-validator/_static/coverage/index.html
 
-`rbv` will check whether a directory structure meets a list of rules defined
-in a configuration `rules.yml` file.
+`rbv` will check whether a directory structure meets a list of rules defined in a configuration `rules.yml` file.
 
 ## Installation
 
 ```bash
 $ git clone $GIT_URL
-$ cd rules-based-validator
-$ make install
+$ pip install rules-based-validator
 ```
 
 ## Usage
@@ -37,8 +37,8 @@ An example `rules.yml`
 ## Filters and Actions
 
 Each rule is described by two different concepts:
-* One or more *filters* will select the files to which the rule will be applied.
-* One or more *actions* will be taken on the selected files.
+* **Filters** select the files to which the rule will be applied..
+* **Actions** run checks on the files selected by the filters.
 
 Each rule is considered valid if all actions taken on the files
 selected by the filters returned a 0 exit code (success).
@@ -50,7 +50,7 @@ selected by the filters returned a 0 exit code (success).
 |---------|---------------|----------------------------------------------------|---|
 | path    | `path: "*.json"`  | Find files by a single name or pattern.  | Stable  |   
 | path_list | `path_list:`<br/>`    - "hello.txt"`<br/>`    - "*.py"` | Find files from list of names or patterns. | Stable  |   
-| paths_from_file  | `paths_from_file: file_with_paths.txt`| Find files from file with names or patterns, one per line.  | Beta  |   
+| paths_from_file  | `paths_from_file: "file_with_paths.txt"`| Find files from file with names or patterns, one per line.  | Beta  |   
 
 N.B. Compatible pattern matching expressions: anything compatible with `glob`
 
@@ -61,7 +61,7 @@ N.B. Compatible pattern matching expressions: anything compatible with `glob`
 |---------|---------------|----------------------------------------------------|---|
 | exists  | `exists: True`| Selected files exist (e.g. a minimum of 1 found)   | Stable  |   
 | count   | `count: n`    | Find exactly `n` selected files.                   | Stable  |   
-| match   | `match: {DIRNAME}/otherfile.txt`            | For each selected file, find another matched file  | Stable  |   
+| match   | `match: {DIR_NAME}/otherfile.txt`            | For each selected file, find another matched file  | Stable  |   
 
 #### Substitutions
 
@@ -74,9 +74,9 @@ For example, the following will check that every file matching `predictions/*/pr
 ```yaml
 - rulename: predictions_file
   filters:
-    path: predictions/*/predictions.csv
+    path: "predictions/*/predictions.csv"
   actions:
-    match: pipelines/{DIR_NAME}.json
+    match: "pipelines/{DIR_NAME}.json"
 ```
 
 Examples are based on the file path `a/b/c.txt`
