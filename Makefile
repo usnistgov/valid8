@@ -7,7 +7,8 @@ help:
 	@echo "make clean"
 	@echo "       delete all intermediary files"
 
-CLEAN_TARGETS=dist *.egg-info build doc/**/api htmlcov .pytest_cache .coverage .tox
+DOC_TARGETS=doc/**/api doc/_build
+CLEAN_TARGETS=dist *.egg-info build htmlcov .pytest_cache .coverage .tox $(DOC_TARGETS)
 
 dep:
 	pip install -q -r requirements.txt
@@ -24,3 +25,6 @@ devdep: dep
 
 clean:
 	rm -rf $(CLEAN_TARGETS)
+
+docs_clean:
+	rm -rf $(DOC_TARGETS)
