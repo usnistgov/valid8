@@ -10,12 +10,16 @@ from rbv import cli
 
 TEST_EXEC_DIR = Path(__file__).parent.parent
 
+dse_rules_file = "examples/dse_rules.yml"
+single_rule_filter_action = "examples/single_rule_single_action.yml"
+single_rule_filter_action_FALSE = "examples/FALSE_single_rule_single_action.yml"
+
 YAMLConfig = namedtuple("YAMLConfig", "filepath, cdir, success")
 config_files_data = [
-    YAMLConfig("examples/dse_rules.yml", ".", False),
-    YAMLConfig("examples/single_rule_single_action.yml", ".", True),
-    YAMLConfig("examples/single_rule_single_action.yml", "./rbv", False),
-    YAMLConfig("examples/FALSE_single_rule_single_action.yml", ".", False),
+    YAMLConfig(dse_rules_file, ".", False),
+    YAMLConfig(single_rule_filter_action, ".", True),
+    YAMLConfig(single_rule_filter_action, "./rbv", False),
+    YAMLConfig(single_rule_filter_action_FALSE, ".", False),
 ]
 
 
@@ -162,4 +166,115 @@ def test_d3m_ta1(dirstructure, full_path, expected, capsys):
                 assert out.strip().endswith("False")
 
             assert not out.strip().endswith("sanitycheck")
-    pass
+
+
+# correct_rule = """
+# - rulename: arbitraryrulename
+#     filters:
+#         path: hello.txt
+#     actions:
+#         exists: true
+# """
+correct_rule = """
+- rulename: predictions_file
+  filters:
+    path: predictions.csv
+  actions:
+    exists: true
+"""
+missing_filters = """
+- rulename: somerulename
+  actions:
+    exists: true
+"""
+missing_actions = """
+- rulename: somerulename
+  filters:
+    path: hello.txt
+"""
+not_a_yml_list = """
+somekey: somevalue
+"""
+wrong_indentation = """
+- rulename: somerulename
+    filters:
+        path: hello.txt
+    actions:
+        exists: True
+"""
+unknown_action = """
+- rulename: somerulename
+  filters:
+    path: predictions.csv
+  actions:
+    fantasyAction: arg1
+"""
+incorrect_root_key = """
+- wrongrootkey: somerulename
+  filters:
+    path: predictions.csv
+  actions:
+    exists: true
+"""
+linter_data = [(correct_rule, True)] + [
+    (content, False)
+    for content in ["", missing_actions, missing_filters, not_a_yml_list]
+]
+linter_data_incorrect = {"missing_actions": missing_actions}
+
+
+@pytest.mark.parametrize(
+    "path", [dse_rules_file, single_rule_filter_action, single_rule_filter_action_FALSE]
+)
+def test_lint_ok(path, capsys):
+    test_args = ["test", "lint", path]
+    with patch.object(sys, "argv", test_args):
+        try:
+            cli.main()
+        except SystemExit:
+            pytest.fail("SystemExit was raised when linting a correct file")
+        out, err = capsys.readouterr()
+        assert "good" in out
+
+
+@pytest.mark.parametrize("file_from_content", [correct_rule], indirect=True)
+def test_lint_ok_from_content(file_from_content, capsys):
+    test_args = ["test", "lint", file_from_content.as_posix()]
+    with patch.object(sys, "argv", test_args):
+        try:
+            cli.main()
+        except SystemExit:
+            pytest.fail("SystemExit was raised when linting a correct file")
+        out, err = capsys.readouterr()
+        assert "good" in out
+
+
+@pytest.mark.parametrize(
+    "file_from_content",
+    [
+        missing_actions,
+        missing_filters,
+        not_a_yml_list,
+        wrong_indentation,
+        unknown_action,
+        incorrect_root_key,
+    ],
+    indirect=True,
+)
+def test_lint_fails_from_content(file_from_content, capsys):
+    test_args = ["test", "lint", file_from_content.as_posix()]
+    with patch.object(sys, "argv", test_args):
+        with pytest.raises(SystemExit) as sysexit:
+            cli.main()
+        exit_code = sysexit.value.code
+        assert exit_code == 2
+        out, err = capsys.readouterr()
+        assert len(out) != 0
+
+
+@pytest.fixture
+def file_from_content(tmp_path, request):
+    new_file = tmp_path / "file"
+    new_file.write_text(request.param)
+    yield new_file
+    new_file.unlink()

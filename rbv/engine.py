@@ -2,6 +2,8 @@ from collections import defaultdict
 
 import yaml
 
+from .exceptions import ValidationSyntaxError, UnknownRule
+
 # retrieve_associated_function depends on this line
 from . import actions, filters  # noqa: F401
 
@@ -61,32 +63,48 @@ def extract_rules(parsed_rules):
 
     rules_structure = defaultdict(dict)
 
-    def parse_subdict(rules_subtype, rule_dict):
-        extracted_functions = list()
-        type_dict = rule_dict[rules_subtype]
-        for func_name, func_contents in type_dict.items():
-            func_dict = dict()
-            func_dict["name"] = func_name
-            func_dict["func"] = retrieve_associated_function(rules_subtype, func_name)
-
-            # Setting args and kwargs for later unpacking
-            if type(func_contents) is dict:
-                func_dict["args"] = []
-                func_dict["kwargs"] = func_contents
-            else:
-                func_dict["args"] = func_contents
-                func_dict["kwargs"] = {}
-
-            extracted_functions.append(func_dict)
-        return extracted_functions
-
     rules_subtypes = ["filters", "actions"]
     for rule in parsed_rules:
+
+        try:
+            rule_content = rule["rulename"]
+        except (KeyError, TypeError) as e:
+            raise ValidationSyntaxError(e) from e
+
         for subtype in rules_subtypes:
-            rules_structure[rule["rulename"]][subtype] = parse_subdict(subtype, rule)
-            rules_structure[rule["rulename"]][subtype] = parse_subdict(subtype, rule)
+            rules_structure[rule_content][subtype] = extract_rules_subtype(
+                subtype, rule
+            )
+            rules_structure[rule_content][subtype] = extract_rules_subtype(
+                subtype, rule
+            )
 
     return rules_structure
+
+
+def extract_rules_subtype(rules_subtype, rule_dict):
+    extracted_functions = list()
+
+    try:
+        type_dict = rule_dict[rules_subtype]
+    except KeyError as e:
+        raise ValidationSyntaxError(e) from e
+
+    for func_name, func_contents in type_dict.items():
+        func_dict = dict()
+        func_dict["name"] = func_name
+        func_dict["func"] = retrieve_associated_function(rules_subtype, func_name)
+
+        # Setting args and kwargs for later unpacking
+        if type(func_contents) is dict:
+            func_dict["args"] = []
+            func_dict["kwargs"] = func_contents
+        else:
+            func_dict["args"] = func_contents
+            func_dict["kwargs"] = {}
+
+        extracted_functions.append(func_dict)
+    return extracted_functions
 
 
 def retrieve_associated_function(rule_subtype, name):
@@ -102,8 +120,11 @@ def retrieve_associated_function(rule_subtype, name):
 
     """
     all_available_variables = globals()
-    rule_subtype_module = all_available_variables[rule_subtype]
-    associated_function = getattr(rule_subtype_module, name)
+    try:
+        rule_subtype_module = all_available_variables[rule_subtype]
+        associated_function = getattr(rule_subtype_module, name)
+    except (KeyError, AttributeError) as e:
+        raise UnknownRule(rule_subtype, name) from e
     return associated_function
 
 
