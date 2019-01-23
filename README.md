@@ -18,7 +18,7 @@ $ pip install rules-based-validator
 ## Usage
 
 ```bash
-$ rbv validate rules.yml
+$ rbv validate [--directory directory] rules.yml
 $ rbv lint rules.yml
 ```
 

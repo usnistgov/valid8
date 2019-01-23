@@ -35,10 +35,45 @@ def test_expected_output(full_path, current_dir, expected, capsys):
 
 
 @pytest.mark.smoke
-@pytest.mark.skip(reason="Requires impleming --directory feature")
 @pytest.mark.parametrize("filepath, targeted_dir, expected", config_files_data)
 def test_expected_output_when_specifying_dir(filepath, targeted_dir, expected, capsys):
     test_args = ["test", "validate", "--directory", targeted_dir, filepath]
+    compare_main_with_expected_output(test_args, expected, capsys)
+
+
+file_exists_rule = """
+- rulename: checks_in_subdir
+  filters:
+    path: {filename}
+  actions:
+    exists: true
+"""
+filename_exists_data = [
+    (file_exists_rule.format(filename="somethingrandom"), ".", False),
+    (file_exists_rule.format(filename=Path(__file__).name), ".", False),
+    (
+        file_exists_rule.format(filename=Path(__file__).name),
+        Path(__file__).parent.as_posix(),
+        True,
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "file_from_content, targeted_dir, expected",
+    filename_exists_data,
+    indirect=["file_from_content"],
+)
+def test_specifying_dir_with_rule_filename_exists(
+    file_from_content, targeted_dir, expected, capsys
+):
+    test_args = [
+        "test",
+        "validate",
+        "--directory",
+        targeted_dir,
+        file_from_content.as_posix(),
+    ]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 

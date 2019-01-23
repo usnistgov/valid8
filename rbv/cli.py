@@ -39,6 +39,12 @@ def define_parser():
             dict(help="Toggle verbose log output", action="store_true"),
         ],
     ]
+    validate_args = base_args + [
+        [
+            ["-d", "--directory"],
+            dict(help="The directory to run the checks on", default="."),
+        ]
+    ]
 
     def add_protocol_subparser(name, kwargs, func, arguments):
         subp = subparsers.add_parser(name, **kwargs)
@@ -52,7 +58,7 @@ def define_parser():
         "validate",
         dict(help="Check the rules against the directory structure"),
         func=cmd_run_validation,
-        arguments=base_args,
+        arguments=validate_args,
     )
 
     add_protocol_subparser(
@@ -77,7 +83,7 @@ def cmd_run_validation(args):
         with error_code=1 if the directory structure does not follow the rules
 
     """
-    rules_structure = engine.process_configured_rules(args.ymlrules)
+    rules_structure = engine.process_configured_rules(args.ymlrules, args.directory)
 
     engine.print_summary(rules_structure)
 
