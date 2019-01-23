@@ -6,16 +6,20 @@
     - [x] Get rid of the `Context` class (?) 
     - [x] Get rid of the `Output` class
     - [x] Centralize exceptions (?)
-    - [ ] Handle incorrect syntax or missing rules
+    - [x] Handle incorrect syntax or missing rules
     - [x] Add actions
         - [x] Match action
         - [x] Count action
-    - [ ] Find a pretty way to store and output errors
+            - [ ] Add `count` support for `+`
+        - [ ] Script/delegate function
+            - [ ] Python call
+            - [ ] shell call
     - [ ] Output pretty summaries (possible verbosity levels)
     - [ ] Add logging
     - [ ] Consider making `rules_d` from a class or combination of classes
     - [ ] Support adding actions/filters from other namespaces
     - [ ] Rename paths/match paths filters (e.g. :find:)
+    - [ ] Make release
 - Unit tests
     - Add: 
         - [x] `test_engine.py`
@@ -25,8 +29,7 @@
     - [ ] Refactor `test_cli.py`
     - [x] Find a way to share fixtures
     - [x] Separate tests for `actions.count` from `actions.exists`
-    - [ ] Test `rules_d` content and fields at multiple steps
-    - [ ] Improve coverage
+    - [x] Improve coverage
 - Integration tests
     - [x] Find a way to list integration tests in pytest or other
     - [ ] Add cases
@@ -34,10 +37,12 @@
             - [x] Pass (single file)
             - [x] Fail (missing predictions)
             - [x] Pass (many files, including predictions)
-        - [ ] D3M TA1
-            - [ ] Pass (all files)
-            - [ ] Fail (missing file)
-        - [ ] Non-existing rules (error message)
+        - [x] D3M TA1
+            - [x] Pass (all files)
+            - [x] Fail (missing file)
+        - [x] Non-existing rules (error message)
+        - [ ] D3M TA2
+        - [ ] D3M TA3
 - CLI
     - [x] Basic callable CLI
     - [ ] Enable setting directory target
@@ -50,10 +55,10 @@
     - [ ] Make a diagram of the 3 steps of the rbv
     - [x] Document how to add filter or action rules
     - [x] Make a usage README
-    - [ ] Add docstrings 
+    - [x] Add docstrings 
         - [x] Added docstrings in `actions.exists` 
         - [x] Added docstrings in `cli`, `engine`
-    - [ ] Set up Sphinx and automatic doc generated from docstrings
+    - [x] Set up Sphinx and automatic doc generated from docstrings
  - CI 
     - [x] Make format and quality checks automatic on each commit
     - [x] Configure tox to centralize and run tests and checks
