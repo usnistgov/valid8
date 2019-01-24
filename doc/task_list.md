@@ -49,8 +49,8 @@
     - [x] Enable just linting
     - [x] Enable setting verbosity 
 - Packaging
-    - [ ] Docker file 
     - [x] `setup.cfg`
+    - [ ] Make the setup in `setup.py` read `requirements.txt` into `install_requires`
 - Documentation
     - [ ] Make a diagram of the 3 steps of the rbv
     - [x] Document how to add filter or action rules
@@ -62,4 +62,6 @@
  - CI 
     - [x] Make format and quality checks automatic on each commit
     - [x] Configure tox to centralize and run tests and checks
+    - [ ] Make artifacts from packages built in CI 
+     
     

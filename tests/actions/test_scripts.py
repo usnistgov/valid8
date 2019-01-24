@@ -1,14 +1,8 @@
-from pathlib import Path
-
 import pytest
 
 from rbv.actions.scripts import context_variables, single_script, ScriptError
 
-from ..lib import compare_main_with_expected_output
-
-CURRENT_FILE = Path(__file__)
-TEST_EXEC_DIR = CURRENT_FILE.parent.parent.parent
-CURRENT_FILE_REL = CURRENT_FILE.relative_to(TEST_EXEC_DIR)
+from ..lib import compare_main_with_expected_output, CURRENT_FILE_REL
 
 single_path_single_command = """
 - rulename: checks_with_scripts

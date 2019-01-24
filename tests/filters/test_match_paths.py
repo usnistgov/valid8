@@ -1,6 +1,102 @@
 import os.path
 
+import pytest
+
 from rbv.filters.match_paths import match_single_path, match_list_path
+from ..lib import compare_main_with_expected_output, CURRENT_FILE_REL
+
+arg_single = """
+- rulename: checks_with_scripts
+  filters:
+    find: {}
+  actions:
+    exists: True
+"""
+arg_list = """
+- rulename: checks_with_scripts
+  filters:
+    find:
+      - {}
+      - {}
+  actions:
+    exists: True
+"""
+arg_file = """
+- rulename: checks_with_scripts
+  filters:
+    find:
+      file: {}
+  actions:
+    exists: True
+"""
+file_contents = """
+{}
+{}
+"""
+
+data_ok = [arg_single.format(pattern) for pattern in [CURRENT_FILE_REL, "'*.py'"]]
+data_fails = [arg_single.format(pattern) for pattern in ["a/b"]]
+
+data_list_ok = [
+    arg_list.format(pattern1, pattern2)
+    for pattern1 in [CURRENT_FILE_REL]
+    for pattern2 in [CURRENT_FILE_REL.parent]
+]
+data_list_fails = [arg_list.format("fake file", CURRENT_FILE_REL)]
+
+
+@pytest.mark.parametrize("file_from_content", data_ok, indirect=["file_from_content"])
+def test_find_ok(file_from_content, capsys):
+    test_args = ["test", "validate", file_from_content.as_posix()]
+    compare_main_with_expected_output(test_args, True, capsys)
+
+
+@pytest.mark.parametrize(
+    "file_from_content", data_fails, indirect=["file_from_content"]
+)
+def test_find_fails(file_from_content, capsys):
+    test_args = ["test", "validate", file_from_content.as_posix()]
+    compare_main_with_expected_output(test_args, False, capsys)
+
+
+@pytest.mark.parametrize(
+    "file_from_content", data_list_ok, indirect=["file_from_content"]
+)
+def test_find_list_ok(file_from_content, capsys):
+    test_args = ["test", "validate", file_from_content.as_posix()]
+    compare_main_with_expected_output(test_args, True, capsys)
+
+
+@pytest.mark.parametrize(
+    "file_from_content", data_list_fails, indirect=["file_from_content"]
+)
+def test_find_list_fails(file_from_content, capsys):
+    test_args = ["test", "validate", file_from_content.as_posix()]
+    compare_main_with_expected_output(test_args, False, capsys)
+
+
+# file_contents.format(CURRENT_FILE_REL.as_posix(), CURRENT_FILE_REL.parent.as_posix())
+
+
+@pytest.mark.parametrize(
+    "find_file_contents",
+    [file_contents.format(CURRENT_FILE_REL, CURRENT_FILE_REL.parent)],
+)
+def test_find_file_ok(find_file_contents, make_file_from_contents, capsys):
+    find_file = make_file_from_contents(find_file_contents)
+    yml_config = make_file_from_contents(arg_file.format(find_file))
+    test_args = ["test", "validate", yml_config.as_posix()]
+    print(test_args)
+    # assert 1 == 1
+    compare_main_with_expected_output(test_args, True, capsys)
+
+
+#
+# def test_find_file_ok
+
+
+######################
+
 
 # TODO make fixture that creates and destroys a fake file structure
 

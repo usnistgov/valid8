@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import uuid
 
 import pytest
 
@@ -58,3 +59,18 @@ def file_from_content(tmp_path, request):
     new_file.write_text(request.param)
     yield new_file
     new_file.unlink()
+
+
+@pytest.fixture
+def make_file_from_contents(tmp_path):
+    created_files = []
+
+    def file_from_content(contents):
+        new_file = tmp_path / str(uuid.uuid4())
+        new_file.write_text(contents.strip())
+        return new_file
+
+    yield file_from_content
+
+    for created_file in created_files:
+        created_file.unlink()
