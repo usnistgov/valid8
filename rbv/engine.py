@@ -143,7 +143,6 @@ def act_on_rules(rules_structure, directory):
     cdir = os.getcwd()
     try:
         os.chdir(directory)
-        print(f"we are in {directory}")
 
         for rule_name, rule_contents in rules_structure.items():
             act_on_rule(rule_contents)

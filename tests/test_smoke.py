@@ -8,7 +8,6 @@ import pytest
 
 from rbv import cli
 
-TEST_EXEC_DIR = Path(__file__).parent.parent
 
 dse_rules_file = "examples/dse_rules.yml"
 single_rule_filter_action = "examples/single_rule_single_action.yml"
@@ -89,26 +88,6 @@ def compare_main_with_expected_output(test_args, expected, capsys):
             else:
                 assert sysexit != 0
                 assert out.strip().endswith("False")
-
-
-@pytest.fixture
-def current_dir(request):
-    # save current directory
-    original_dir = Path.cwd()
-    requested_dir = Path(request.param)
-
-    os.chdir(requested_dir.as_posix())
-
-    yield
-
-    # revert to original directory at teardown
-    os.chdir(original_dir.as_posix())
-
-
-@pytest.fixture
-def full_path(tmp_path, request):
-    original_filepath = Path(request.param)
-    return (TEST_EXEC_DIR / original_filepath).as_posix()
 
 
 ScenarioConfig = namedtuple("ScenarioConfig", "filepath, files, expected")
@@ -284,11 +263,3 @@ def test_lint_fails_from_content(file_from_content, capsys):
         assert exit_code == 2
         out, err = capsys.readouterr()
         assert len(out) != 0
-
-
-@pytest.fixture
-def file_from_content(tmp_path, request):
-    new_file = tmp_path / "file"
-    new_file.write_text(request.param)
-    yield new_file
-    new_file.unlink()

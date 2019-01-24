@@ -9,10 +9,7 @@ def main():
     """
     parser = define_parser()
     args = parser.parse_args()
-    if hasattr(args, "func") and args.func is not None:
-        args.func(args)
-    else:
-        parser.print_help()
+    args.func(args)
 
 
 def define_parser():

@@ -84,7 +84,7 @@ def context_variables(context_filepath):
     Context file path subsitutions for :func:`match`
 
     Args:
-        context_filepath: the file path that may contain substition keys
+        context_filepath: the context the substitution variables refer to
 
     Returns:
         dict: of all the substitution keys and their values

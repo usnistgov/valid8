@@ -11,9 +11,8 @@
         - [x] Match action
         - [x] Count action
             - [ ] Add `count` support for `+`
-        - [ ] Script/delegate function
-            - [ ] Python call
-            - [ ] shell call
+        - [x] Script/delegate function
+    - [ ] Make context variables available to all rules (& computed once)
     - [ ] Output pretty summaries (possible verbosity levels)
     - [ ] Add logging
     - [ ] Consider making `rules_d` from a class or combination of classes
@@ -26,6 +25,7 @@
         - [x] `test_exists.py` 
         - [x] `test_cli.py`
         - [x] `test_match.py`
+        - [x] `test_scripts.py`
     - [ ] Refactor `test_cli.py`
     - [x] Find a way to share fixtures
     - [x] Separate tests for `actions.count` from `actions.exists`
@@ -45,7 +45,7 @@
         - [ ] D3M TA3
 - CLI
     - [x] Basic callable CLI
-    - [ ] Enable setting directory target
+    - [x] Enable setting directory target
     - [x] Enable just linting
     - [x] Enable setting verbosity 
 - Packaging

@@ -32,6 +32,8 @@ An example `rules.yml`
       - "rbv/cli.py"
   actions:
     exists: true
+    scripts: 
+      - wc -l ${FILEPATH}
 ```
 
 ## Filters and Actions
@@ -61,13 +63,15 @@ N.B. Compatible pattern matching expressions: anything compatible with `glob`
 |---------|---------------|----------------------------------------------------|---|
 | exists  | `exists: True`| Selected files exist (e.g. a minimum of 1 found)   | Stable  |   
 | count   | `count: n`    | Find exactly `n` selected files.                   | Stable  |   
-| match   | `match: {DIR_NAME}/otherfile.txt`            | For each selected file, find another matched file  | Stable  |   
+| match   | `match: {DIR_NAME}/otherfile.txt`               | For each selected file, find another matched file       | Stable  |   
+| scripts (inline) | `scripts: "wc -l {FILEPATH}"`          | Execute a shell command for each selected file          | Stable  |   
+| scripts (list)   | `scripts:`<br/>`  - wc -l {FILEPATH}`  | Execute a list of shell commands for each selected file | Stable  |   
 
 #### Substitutions
 
-*N.B.* Only available in `action.match`
+*N.B.* Only available in `action.match` and `action.scripts`
 
-In some rules, it may be necessary to use information about the filtered files to make a determination on an action. The substitutions keys below are available for use in the parameter of the `match` action.
+In some rules, it's useful to use information about the filtered files to make a determination on an action. The substitutions keys below are available for use in the parameter of the `match` and `scripts` action.
 
 For example, the following will check that every file matching `predictions/*/predictions.csv` has a corresponding `JSON` file with the original directory name as its filename.
 
