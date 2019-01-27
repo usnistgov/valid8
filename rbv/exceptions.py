@@ -30,6 +30,13 @@ class UnknownRule(BaseValidationError):
         super().__init__(self.message)
 
 
+class UnknownArgument(BaseValidationError):
+    def __init__(self, message, rule_type, rule_name):
+        self.rule_type = rule_type
+        self.rule_name = rule_name
+        super().__init__(message)
+
+
 class PatternNotFound(BaseValidationError):
     def __init__(self, pattern, before_subs=None):
         self.target = pattern

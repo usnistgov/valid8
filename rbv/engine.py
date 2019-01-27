@@ -1,4 +1,5 @@
 from collections import defaultdict
+import os
 
 import yaml
 
@@ -8,7 +9,7 @@ from .exceptions import ValidationSyntaxError, UnknownRule
 from . import actions, filters  # noqa: F401
 
 
-def process_configured_rules(filepath):
+def process_configured_rules(filepath, directory):
     """
     Processes the user-defined rules.
     Interprets the user-defined rules, maps then to functions,
@@ -16,6 +17,7 @@ def process_configured_rules(filepath):
 
     Args:
         filepath: yml file with the configured rules. (str or pathlib.Path)
+        directory: the directory to run checks on
 
     Returns:
          dict: rules structure with the interpreted rules and their output
@@ -23,7 +25,7 @@ def process_configured_rules(filepath):
     """
     parsed_rules = parse_yml(filepath)
     rules_structure = extract_rules(parsed_rules)
-    act_on_rules(rules_structure)
+    act_on_rules(rules_structure, directory=directory)
     return rules_structure
 
 
@@ -128,7 +130,7 @@ def retrieve_associated_function(rule_subtype, name):
     return associated_function
 
 
-def act_on_rules(rules_structure):
+def act_on_rules(rules_structure, directory):
     """
     Call the associated code for each rule.
     The output of each rule action is reported in the dict of that rule in
@@ -138,8 +140,15 @@ def act_on_rules(rules_structure):
         rules_structure(dict): the structure representing rules.
 
     """
-    for rule_name, rule_contents in rules_structure.items():
-        act_on_rule(rule_contents)
+    cdir = os.getcwd()
+    try:
+        os.chdir(directory)
+
+        for rule_name, rule_contents in rules_structure.items():
+            act_on_rule(rule_contents)
+
+    finally:
+        os.chdir(cdir)
 
 
 def act_on_rule(rule):
