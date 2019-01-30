@@ -1,10 +1,10 @@
 [![pipeline][badge_pipeline]][git_url]
 [![coverage][badge_coverage]][coverage_report]
 
-[badge_pipeline]: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/master/pipeline.svg
-[badge_coverage]: https://gitlab.com/prometheuscomputing/rules-based-validator/badges/master/coverage.svg
-[git_url]: https://gitlab.com/prometheuscomputing/rules-based-validator
-[coverage_report]: https://prometheuscomputing.gitlab.io/rules-based-validator/_static/coverage/index.html
+[badge_pipeline]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/pipeline.svg
+[badge_coverage]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/coverage.svg
+[git_url]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator
+[coverage_report]: http://dse-nist.ipages.nist.gov/rules-based-validator/_static/coverage/index.html
 
 `rbv` will check whether a directory structure meets a list of rules defined in a configuration `rules.yml` file.
 
