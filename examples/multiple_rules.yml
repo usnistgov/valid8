@@ -8,8 +8,7 @@
       - "/source/file.txt"
   actions:
     exists: true
-    type: "file"
-    cardinality: ">1"
+    count: "1"
     some_complicated_action:
         arg1: "hello"
         arg2: "world"
