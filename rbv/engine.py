@@ -121,6 +121,7 @@ def retrieve_associated_function(rule_subtype, name):
         <function>: the function associated to that name.
 
     """
+    # TODO this could be prettier using sys.modules
     all_available_variables = globals()
     try:
         rule_subtype_module = all_available_variables[rule_subtype]
@@ -210,5 +211,6 @@ def rules_output(rules_structure):
         bool: True if the rules were followed in the directory structure.
 
     """
+    # TODO raise error if outputs are non boolean
     rules_output = all([rule["output"] for rule in rules_structure.values()])
     return rules_output

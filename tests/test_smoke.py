@@ -89,6 +89,8 @@ def compare_main_with_expected_output(test_args, expected, capsys):
                 assert sysexit != 0
                 assert out.strip().endswith("False")
 
+    # TODO case where it doesn't exit
+
 
 ScenarioConfig = namedtuple("ScenarioConfig", "filepath, files, expected")
 scenarios_data = [

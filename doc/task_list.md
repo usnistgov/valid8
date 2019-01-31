@@ -17,7 +17,7 @@
     - [ ] Add logging
     - [ ] Consider making `rules_d` from a class or combination of classes
     - [ ] Support adding actions/filters from other namespaces
-    - [ ] Rename paths/match paths filters (e.g. :find:)
+    - [x] Rename paths/match paths filters (e.g. :find:)
     - [ ] Make release
 - Unit tests
     - Add: 
@@ -51,6 +51,8 @@
 - Packaging
     - [x] `setup.cfg`
     - [ ] Make the setup in `setup.py` read `requirements.txt` into `install_requires`
+    - [ ] Consider using test_requires in `setup.py` to specify test dependencies
+    - [ ] Consider using `extras_require` for other dependencies, e.g. doc
 - Documentation
     - [ ] Make a diagram of the 3 steps of the rbv
     - [x] Document how to add filter or action rules
@@ -59,9 +61,8 @@
         - [x] Added docstrings in `actions.exists` 
         - [x] Added docstrings in `cli`, `engine`
     - [x] Set up Sphinx and automatic doc generated from docstrings
+    - [ ] Write development guide
  - CI 
     - [x] Make format and quality checks automatic on each commit
     - [x] Configure tox to centralize and run tests and checks
-    - [ ] Make artifacts from packages built in CI 
-     
-    
+    - [ ] Make artifacts from packages built in CI
