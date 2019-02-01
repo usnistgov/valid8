@@ -121,7 +121,7 @@ def test_single_match_paths():
 
 
 def test_single_match_patterns():
-    data = {k: [] for k in patterns.keys()}
+    data = {k: [] for k in patterns}
     for k, v in data.items():
         match_single_path(filepath=patterns[k], context=v)
 
