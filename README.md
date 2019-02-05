@@ -1,17 +1,26 @@
 [![pipeline][badge_pipeline]][git_url]
 [![coverage][badge_coverage]][coverage_report]
+[![license][badge_license]](./LICENSE.md)
 
 [badge_pipeline]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/pipeline.svg
 [badge_coverage]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/coverage.svg
 [git_url]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator
 [coverage_report]: http://dse-nist.ipages.nist.gov/rules-based-validator/_static/coverage/index.html
+[badge_license]: https://img.shields.io/badge/license-NIST-000000.svg?style=flat-square
+[doc]: https://dse-nist.ipages.nist.gov/rules-based-validator
 
-`rbv` will check whether a directory structure meets a list of rules defined in a configuration `rules.yml` file.
+# Human Readable Validation
+
+[Documentation][doc]
+
+## About
+
+`rbv` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure. 
 
 ## Installation
 
 ```bash
-$ git clone $GIT_URL
+$ git clone [GIT_CLONE_URL]
 $ pip install rules-based-validator
 ```
 
@@ -22,9 +31,9 @@ $ rbv validate [--directory directory] rules.yml
 $ rbv lint rules.yml
 ```
 
-An example `rules.yml`
+An example `rules.yml` with one rule:
 ```yaml
-- rulename: arbitraryrulename
+- rulename: count_lines_in_specified_files
   filters:
     path_list:
       - "Makefile"
