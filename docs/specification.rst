@@ -60,7 +60,7 @@ Simple key-value parameter
       actions:
         action_function: parameter_for_action
 
-For example,
+For example, the count action takes a single direct parameter: the number of files to expect. 
 
 .. code-block:: yaml
 
@@ -73,19 +73,20 @@ List parameters
 
 .. code-block:: yaml
 
-      actions:
-        another_action_function:
-          - parameter1_for_action
-          - parameter2_for_action
+      filters:
+        another_filter_function:
+          - parameter1_for_filter
+          - parameter2_for_filter
 
-For example,
+For example, the ``find`` filter can take a list of files (or patterns) to find:
 
 .. code-block:: yaml
 
-      actions:
-        another_action_function:
-          - parameter1_for_action
-          - parameter2_for_action
+      filters:
+        find:
+          - find_this_file.txt
+          - also_these_files.*
+
 
 -----------------
 Mapping parameter
@@ -94,11 +95,18 @@ Mapping parameter
 
 .. code-block:: yaml
 
-      actions:
-        another_action_function:
+      filters:
+        another_filter_function:
           key_parameter: value
           another_key: another_value
 
+For example, the ``find`` command can take a mapping parameter (but only for key ``file``):
+
+.. code-block:: yaml
+
+      filters:
+        find:
+          file: file_with_paths.txt
 
 ======================
 Limitations

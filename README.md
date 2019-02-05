@@ -66,6 +66,36 @@ selected by the filters returned a 0 exit code (success).
 N.B. Compatible pattern matching expressions: anything compatible with `glob`
 
 
+#### The `find` shortcut
+
+The `find` filter is also available as syntactic sugar for the `path`, `path_list` and `paths_from_file` filters.
+
+
+Using `find` with a direct argument calls `path`
+```yaml
+  filters:
+    find: find_this_file.txt
+```
+
+Using `find` with a YAML list calls `path_list`
+
+```yaml
+  filters:
+    find:
+      - find_this_file.txt
+      - also_these_files.*
+```
+
+Using `find` with a YAML mapping and the key `file` calls `path_from_file`
+
+```yaml
+  filters:
+    find:
+      file: file_with_paths.txt
+```
+
+These modes are not combinable. Only use one per rule. 
+
 ### Actions
 
 |  Name   | Usage         | Description                                        | Status  |  
