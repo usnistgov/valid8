@@ -15,6 +15,8 @@ tests:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
+    reports:
+      junit: report*.xml
   coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
 
 lint:
@@ -36,19 +38,19 @@ docs:
   dependencies:
     - tests
   script:
-    - mkdir -p doc/_static/coverage
-    - cp -r $CI_PROJECT_DIR/htmlcov/* doc/_static/coverage/
-    - tox -e doc
+    - mkdir -p docs/_static/coverage
+    - cp -r $CI_PROJECT_DIR/htmlcov/* docs/_static/coverage/
+    - tox -e docs
   artifacts:
     paths:
-      - doc/_build
+      - html_docs
 
 pages:
   stage: deploy
   dependencies:
     - docs
   script:
-    - mv doc/_build public
+    - mv html_docs public
   artifacts:
     paths:
       - public

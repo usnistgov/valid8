@@ -1,8 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="rbv",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests", "docs"]),
     entry_points="""
           [console_scripts]
           rbv=rbv.cli:main
