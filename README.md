@@ -13,25 +13,34 @@
 
 [Documentation][doc]
 
-## About
-
 `rbv` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
 
 ## Installation
 
+This package requires Python3.6+. 
+
+Clone the repository and use pip to install the contents: 
 ```bash
 $ git clone [GIT_CLONE_URL]
-$ pip install rules-based-validator
+$ pip install ./rules-based-validator
 ```
 
 ## Usage
 
+`rbv` supports two subcommands: 
+* `validate` for most uses 
+* `lint` to check the validity of the rules file
+
+Usage: 
 ```bash
 $ rbv validate [--directory directory] rules.yml
 $ rbv lint rules.yml
 ```
 
-An example `rules.yml` with one rule:
+
+## Example rules file
+
+Example `rules.yml` with one rule:
 ```yaml
 - rulename: count_lines_in_specified_files
   filters:
@@ -44,6 +53,8 @@ An example `rules.yml` with one rule:
     scripts:
       - wc -l ${FILEPATH}
 ```
+
+Other examples can be found in the [examples folder](examples/). 
 
 ## Filters and Actions
 
@@ -140,3 +151,20 @@ Examples are based on the file path `a/b/c.txt`
 3. In the `filters/` or `actions/` `__init__.py`, add an import to add the new function under the
 `filters` or `actions` module.
 Name must be unique
+
+## About 
+
+**Versions and releases**: 
+
+See 
+* the [tags](/../tags) for all releases
+* the [CHANGELOG file](CHANGELOG.md) for a history of the releases.
+* [the `__version__` field in `rbv/__init__.py`](rbv/__init__.py). 
+
+**Contact**:
+
+Please send any issues, questions, or comments to datascience@nist.gov 
+
+**Authors**:
+
+* Marion Le Bras
