@@ -1,5 +1,4 @@
 **Version**: |version|
 
 .. mdinclude:: ../README.md
-    :start-line: 16
-
+    :start-line: 15

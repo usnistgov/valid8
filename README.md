@@ -15,7 +15,7 @@
 
 ## About
 
-`rbv` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure. 
+`rbv` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
 
 ## Installation
 
@@ -41,14 +41,14 @@ An example `rules.yml` with one rule:
       - "rbv/cli.py"
   actions:
     exists: true
-    scripts: 
+    scripts:
       - wc -l ${FILEPATH}
 ```
 
 ## Filters and Actions
 
 Each rule is described by two different concepts:
-* **Filters** select the files to which the rule will be applied..
+* **Filters** select the files to which the rule will be applied.
 * **Actions** run checks on the files selected by the filters.
 
 Each rule is considered valid if all actions taken on the files

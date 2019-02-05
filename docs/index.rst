@@ -11,6 +11,8 @@ Documentation for Rules Based Validation
    :caption: Contents:
 
    readme
+   specification
+   architecture
    reference/CLI
    reference/API
    LICENSE
