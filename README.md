@@ -1,12 +1,3 @@
-[![pipeline][badge_pipeline]][git_url]
-[![coverage][badge_coverage]][coverage_report]
-[![license][badge_license]](./LICENSE.md)
-
-[badge_pipeline]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/pipeline.svg
-[badge_coverage]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator/badges/master/coverage.svg
-[git_url]: https://gitlab.nist.gov/gitlab/dse-nist/rules-based-validator
-[coverage_report]: http://dse-nist.ipages.nist.gov/rules-based-validator/_static/coverage/index.html
-[badge_license]: https://img.shields.io/badge/license-NIST-000000.svg?style=flat-square
 [doc]: https://dse-nist.ipages.nist.gov/rules-based-validator
 
 # Human Readable Validation
@@ -153,6 +144,10 @@ Examples are based on the file path `a/b/c.txt`
 Name must be unique
 
 ## About 
+
+**License** 
+
+The license is documented in the [LICENSE file](LICENSE.md) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
 
 **Versions and releases**: 
 
