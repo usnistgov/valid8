@@ -9,7 +9,10 @@ def main():
     """
     parser = define_parser()
     args = parser.parse_args()
-    args.func(args)
+    if hasattr(args, "func") and args.func is not None:
+        args.func(args)
+    else:
+        parser.print_help()
 
 
 def define_parser():
@@ -76,7 +79,7 @@ def cmd_run_validation(args):
         args: argparse args
 
     Raises:
-        SystemExit(error_code)
+        SystemExit(error_code) \
         with error_code=1 if the directory structure does not follow the rules
 
     """
@@ -91,12 +94,22 @@ def cmd_run_validation(args):
 
 def cmd_run_lint(args):
     """
-    [Alpha] CLI command to run yaml configuration file validation (i.e. linting)
+    CLI command to run yaml configuration file validation (i.e. linting)
     Does not apply the rules (filters OR actions).
     When invalid, prints errors to stdout.
 
     DOES NOT detect wrong arguments in filters or actions
-    because those are only used when applying the rule
+    because those are only used when applying the rule.
+
+    Things it will detect:
+        * no rules list
+        * missing rule name, filters section or actions section
+        * non-existing filter or action (e.g. when typing `exist` instead of `exists`)
+
+    Things it will not detect:
+        * Filter or action arguments of the wrong type (e.g. `count` expects integers)
+        * Filter or action arguments of the wrong YAML type \
+        (e.g. `count` expects direct arguments, `path_list` expects a YAML list)
 
     Args:
         args: argparse args
@@ -110,7 +123,6 @@ def cmd_run_lint(args):
     try:
         rules_structure = engine.parse_yml(args.ymlrules)
         engine.extract_rules(rules_structure)
-        # TODO make this into a real linting cmd
     except yaml.YAMLError as exc:
         print("Yaml error in configuration file:", exc)
     except exceptions.UnknownRule as unk:

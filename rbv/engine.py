@@ -85,6 +85,28 @@ def extract_rules(parsed_rules):
 
 
 def extract_rules_subtype(rules_subtype, rule_dict):
+    """
+    Enhances rules subsections (i.e. `filters` or `actions`) by fetching the corresponding function
+    and turning the YAML arguments into python `args` and `kwargs`.
+
+    Arguments transformation:
+
+        * Direct args -> `args`
+        * List args -> `args`
+        * Mapping args -> `kwargs` dictionary
+
+
+    Args:
+        rules_subtype (str): the rule subsection to enhance, `filters` or `actions`
+        rule_dict (dict): the rule structure, see `extract_rules`
+
+    Returns:
+        list: List of function pointers, names and args for each subsection item.
+
+    Raises:
+        ValidationSyntaxError if the the subsections aren't found in the `rule_dict`
+
+    """
     extracted_functions = list()
 
     try:
@@ -121,7 +143,6 @@ def retrieve_associated_function(rule_subtype, name):
         <function>: the function associated to that name.
 
     """
-    # TODO this could be prettier using sys.modules
     all_available_variables = globals()
     try:
         rule_subtype_module = all_available_variables[rule_subtype]
@@ -211,6 +232,5 @@ def rules_output(rules_structure):
         bool: True if the rules were followed in the directory structure.
 
     """
-    # TODO raise error if outputs are non boolean
     rules_output = all([rule["output"] for rule in rules_structure.values()])
     return rules_output

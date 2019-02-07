@@ -9,9 +9,11 @@ import pytest
 from rbv import cli
 
 
-dse_rules_file = "examples/dse_rules.yml"
-single_rule_filter_action = "examples/single_rule_single_action.yml"
-single_rule_filter_action_FALSE = "examples/FALSE_single_rule_single_action.yml"
+dse_rules_file = "tests/data/examples/dse_rules.yml"
+single_rule_filter_action = "tests/data/examples/single_rule_single_action.yml"
+single_rule_filter_action_FALSE = (
+    "tests/data/examples/FALSE_single_rule_single_action.yml"
+)
 
 YAMLConfig = namedtuple("YAMLConfig", "filepath, cdir, expected")
 config_files_data = [
@@ -89,26 +91,26 @@ def compare_main_with_expected_output(test_args, expected, capsys):
                 assert sysexit != 0
                 assert out.strip().endswith("False")
 
-    # TODO case where it doesn't exit
-
 
 ScenarioConfig = namedtuple("ScenarioConfig", "filepath, files, expected")
 scenarios_data = [
     ScenarioConfig(
-        filepath="examples/dse_rules.yml", files=["predictions.csv"], expected=True
+        filepath="tests/data/examples/dse_rules.yml",
+        files=["predictions.csv"],
+        expected=True,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml",
+        filepath="tests/data/examples/dse_rules.yml",
         files=["predictions.csv", "other.sh"],
         expected=True,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml",
+        filepath="tests/data/examples/dse_rules.yml",
         files=["subdir/predictions.csv", "other.sh"],
         expected=False,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml", files=["other.sh"], expected=False
+        filepath="tests/data/examples/dse_rules.yml", files=["other.sh"], expected=False
     ),
 ]
 
@@ -164,7 +166,9 @@ ds_sp_extra_exec = ds_single_pipeline + ["executables/pipelineID"]
     ],
     indirect=["dirstructure"],
 )
-@pytest.mark.parametrize("full_path", ["examples/d3m_ta1.yml"], indirect=True)
+@pytest.mark.parametrize(
+    "full_path", ["tests/data/examples/d3m_ta1.yml"], indirect=True
+)
 def test_d3m_ta1(dirstructure, full_path, expected, capsys):
     test_args = ["test", "validate", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
@@ -265,3 +269,12 @@ def test_lint_fails_from_content(file_from_content, capsys):
         assert exit_code == 2
         out, err = capsys.readouterr()
         assert len(out) != 0
+
+
+@pytest.mark.smoke
+def test_shows_help(capsys):
+    test_args = ["no-subcommand"]
+    with patch.object(sys, "argv", test_args):
+        cli.main()
+        out, err = capsys.readouterr()
+        assert out.startswith("usage")

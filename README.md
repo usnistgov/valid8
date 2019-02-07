@@ -13,6 +13,7 @@ This package requires Python3.6+.
 Clone the repository and use pip to install the contents: 
 ```bash
 $ git clone [GIT_CLONE_URL]
+$ pip install -r rules-based-validator/requirements.txt
 $ pip install ./rules-based-validator
 ```
 
@@ -45,7 +46,7 @@ Example `rules.yml` with one rule:
       - wc -l ${FILEPATH}
 ```
 
-Other examples can be found in the [examples folder](examples/). 
+Other examples can be found in the `examples/` folder. 
 
 ## Filters and Actions
 
@@ -147,12 +148,12 @@ Name must be unique
 
 **License** 
 
-The license is documented in the [LICENSE file](LICENSE.md) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
+The license is documented in the [LICENSE file](LICENSE.txt) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
 
 **Versions and releases**: 
 
 See 
-* the [tags](/../tags) for all releases
+* the repository tags for all releases. [Gitlab link](/../tags) [Github link](../../tags)
 * the [CHANGELOG file](CHANGELOG.md) for a history of the releases.
 * [the `__version__` field in `rbv/__init__.py`](rbv/__init__.py). 
 

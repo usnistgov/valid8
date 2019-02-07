@@ -12,9 +12,3 @@
     some_complicated_action:
         arg1: "hello"
         arg2: "world"
-
-- rulename: this_is_a_different_rule
-  filters:
-    find: /source/file.txt
-  actions:
-    match: python -c "{FILENAME_NOEXT}=={DIR_NAME}"
