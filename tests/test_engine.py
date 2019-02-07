@@ -134,15 +134,3 @@ def test_rules_output(rules, expected):
     output = engine.rules_output(rules)
     assert output == expected
     assert output == (False not in [rule["output"] for rule in rules.values()])
-
-    # TODO add test with non-boolean
-
-
-# TODO test_act_on_rule
-# actual vs expected with small example (path+exists)
-
-# TODO test_act_on_rules
-# same as above with multiple rules
-
-# TODO test_end_to_end
-# use the rules_listi for end to end actual v expected comparison

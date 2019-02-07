@@ -75,9 +75,6 @@ def test_find_list_fails(file_from_content, capsys):
     compare_main_with_expected_output(test_args, False, capsys)
 
 
-# file_contents.format(CURRENT_FILE_REL.as_posix(), CURRENT_FILE_REL.parent.as_posix())
-
-
 @pytest.mark.parametrize(
     "find_file_contents",
     [file_contents.format(CURRENT_FILE_REL, CURRENT_FILE_REL.parent)],
@@ -91,14 +88,8 @@ def test_find_file_ok(find_file_contents, make_file_from_contents, capsys):
     compare_main_with_expected_output(test_args, True, capsys)
 
 
-#
-# def test_find_file_ok
-
-
 ######################
 
-
-# TODO make fixture that creates and destroys a fake file structure
 
 simple_files = ["Makefile", "rbv", "tests", "README.md"]
 patterns = {"initpy": "tests/*/__init__.py", "py": "**/*.py"}
@@ -144,19 +135,6 @@ def test_empty_match_pattern(tmpdir):
     match_single_path(filepath=match_str, context=context)
     match_base_checks(context)
     assert len(context) == 0, "This pattern must not match any files."
-
-
-# def test_match_patterns_with_filepath():
-#
-#     single_match = match_paths(filepath=simple_files[0])
-#     match_base_checks(single_match)
-#     assert len(single_match) == 1, "This pattern must match a single file."
-#     assert os.path.basename(single_match[0]) == simple_files[0]
-#
-#     pattern_match = match_paths(filepath=patterns["py"])
-#     match_base_checks(pattern_match)
-#     for result in pattern_match:
-#         assert os.path.basename(result).endswith(".py")
 
 
 def test_match_patterns_with_list_filepaths():

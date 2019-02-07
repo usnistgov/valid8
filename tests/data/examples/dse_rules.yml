@@ -1,0 +1,5 @@
+- rulename: predictions_file
+  filters:
+    path: predictions.csv
+  actions:
+    exists: true
