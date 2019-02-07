@@ -1,6 +1,5 @@
 CLI Reference
 *************
 
-.. autoprogram:: rbv.cli:define_parser()
-    :prog: rbv
-
+.. autoprogram:: valid8.cli:define_parser()
+    :prog: valid8
