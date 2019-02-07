@@ -1,7 +1,7 @@
 import pytest
 
-from rbv.actions.count import count
-from rbv.actions.exists import exists
+from valid8.actions.count import count
+from valid8.actions.exists import exists
 
 
 context_data_for_exists = [

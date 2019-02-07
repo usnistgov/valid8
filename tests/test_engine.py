@@ -1,7 +1,7 @@
 import pytest
 import yaml
 
-from rbv import engine, actions, filters
+from valid8 import engine, actions, filters
 
 rules_list1 = [
     {
@@ -14,7 +14,7 @@ rules_list1 = [
 rules_list2 = [
     {
         "rulename": "arbitraryrulename",
-        "filters": {"path_list": ["Makefile", "setup.py", "rbv/cli.py"]},
+        "filters": {"path_list": ["Makefile", "setup.py", "valid8/cli.py"]},
         "actions": {"exists": True},
     }
 ]
@@ -80,7 +80,7 @@ extracted_rules2 = {
             {
                 "name": "path_list",
                 "func": filters.path_list,
-                "args": ["Makefile", "setup.py", "rbv/cli.py"],
+                "args": ["Makefile", "setup.py", "valid8/cli.py"],
                 "kwargs": {},
             }
         ],

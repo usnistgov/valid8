@@ -3,6 +3,6 @@
     path_list:
       - "Makefilezzz"
       - "setup.py"
-      - "rbv/cli.py"
+      - "valid8/cli.py"
   actions:
     exists: true

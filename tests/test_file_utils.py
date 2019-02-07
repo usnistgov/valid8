@@ -1,4 +1,4 @@
-from rbv.file_utils import filepath_exists
+from valid8.file_utils import filepath_exists
 
 
 def asserts_filepath_exists(dirpath):

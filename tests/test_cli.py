@@ -1,6 +1,6 @@
 import pytest
 
-from rbv import cli
+from valid8 import cli
 
 
 @pytest.fixture(scope="module")
@@ -24,7 +24,7 @@ def test_incorrect_args(cli_args, parser, capsys):
 
 
 mapping_func_data = [
-    (["validate", "something"], cli.cmd_run_validation),
+    (["apply", "something"], cli.cmd_run_validation),
     (["lint", "something"], cli.cmd_run_lint),
 ]
 

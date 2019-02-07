@@ -27,19 +27,20 @@ def define_parser():
         description="Validate directory structure according to user-defined yaml rules"
     )
     subparsers = parser.add_subparsers(
-        help="Available subcommands. Call -h to see usage"
+        help="Available subcommands. Call -h to see usage", dest="apply"
     )
+    subparsers.required = True
 
     base_args = [
         # Main positional argument
-        [["ymlrules"], dict(help="the rules defined in yaml")],
+        [["rules_in_yaml"], dict(help="the rules defined in yaml")],
         # Verbosity flag (no effect for now)
         [
             ["-v", "--verbose"],
             dict(help="Toggle verbose log output", action="store_true"),
         ],
     ]
-    validate_args = base_args + [
+    apply_args = base_args + [
         [
             ["-d", "--directory"],
             dict(help="The directory to run the checks on", default="."),
@@ -55,10 +56,10 @@ def define_parser():
         return subp
 
     add_protocol_subparser(
-        "validate",
+        "apply",
         dict(help="Check the rules against the directory structure"),
         func=cmd_run_validation,
-        arguments=validate_args,
+        arguments=apply_args,
     )
 
     add_protocol_subparser(
@@ -83,7 +84,9 @@ def cmd_run_validation(args):
         with error_code=1 if the directory structure does not follow the rules
 
     """
-    rules_structure = engine.process_configured_rules(args.ymlrules, args.directory)
+    rules_structure = engine.process_configured_rules(
+        args.rules_in_yaml, args.directory
+    )
 
     engine.print_summary(rules_structure)
 
@@ -121,7 +124,7 @@ def cmd_run_lint(args):
     import yaml
 
     try:
-        rules_structure = engine.parse_yml(args.ymlrules)
+        rules_structure = engine.parse_yml(args.rules_in_yaml)
         engine.extract_rules(rules_structure)
     except yaml.YAMLError as exc:
         print("Yaml error in configuration file:", exc)

@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from rbv import cli
+from valid8 import cli
 
 
 dse_rules_file = "tests/data/examples/dse_rules.yml"
@@ -19,7 +19,7 @@ YAMLConfig = namedtuple("YAMLConfig", "filepath, cdir, expected")
 config_files_data = [
     YAMLConfig(dse_rules_file, ".", False),
     YAMLConfig(single_rule_filter_action, ".", True),
-    YAMLConfig(single_rule_filter_action, "./rbv", False),
+    YAMLConfig(single_rule_filter_action, "./valid8", False),
     YAMLConfig(single_rule_filter_action_FALSE, ".", False),
 ]
 
@@ -31,14 +31,14 @@ config_files_data = [
     indirect=["full_path", "current_dir"],
 )
 def test_expected_output(full_path, current_dir, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
 @pytest.mark.smoke
 @pytest.mark.parametrize("filepath, targeted_dir, expected", config_files_data)
 def test_expected_output_when_specifying_dir(filepath, targeted_dir, expected, capsys):
-    test_args = ["test", "validate", "--directory", targeted_dir, filepath]
+    test_args = ["test", "apply", "--directory", targeted_dir, filepath]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -70,7 +70,7 @@ def test_specifying_dir_with_rule_filename_exists(
 ):
     test_args = [
         "test",
-        "validate",
+        "apply",
         "--directory",
         targeted_dir,
         file_from_content.as_posix(),
@@ -141,7 +141,7 @@ def dir_structure(request, tmp_path):
     indirect=["full_path", "dir_structure"],
 )
 def test_with_fake_structure(full_path, dir_structure, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -170,7 +170,7 @@ ds_sp_extra_exec = ds_single_pipeline + ["executables/pipelineID"]
     "full_path", ["tests/data/examples/d3m_ta1.yml"], indirect=True
 )
 def test_d3m_ta1(dirstructure, full_path, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -273,8 +273,11 @@ def test_lint_fails_from_content(file_from_content, capsys):
 
 @pytest.mark.smoke
 def test_shows_help(capsys):
-    test_args = ["no-subcommand"]
+    test_args = ["valid8"]
     with patch.object(sys, "argv", test_args):
-        cli.main()
+        try:
+            cli.main()
+        except SystemExit:
+            pass
         out, err = capsys.readouterr()
-        assert out.startswith("usage")
+        assert out.startswith("usage") or err.startswith("usage")
