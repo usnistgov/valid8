@@ -1,8 +1,4 @@
-[doc]: https://dse-nist.ipages.nist.gov/rules-based-validator
-
 # valid8: Human Readable Validation
-
-[Documentation][doc]
 
 `valid8` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
 
