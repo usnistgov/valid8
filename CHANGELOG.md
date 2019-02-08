@@ -1,6 +1,6 @@
 # Changelog
 
-## (in dev) 1.1
+## 1.1
 
 **Date**: Feburary 7th, 2019
 
