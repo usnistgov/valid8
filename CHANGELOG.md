@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.1
+## (dev) v1.2
+
+
+## v1.1
 
 **Date**: Feburary 7th, 2019
 
@@ -9,7 +12,7 @@
 * `rbv` CLI command still works but the `validate` portion is also now `rbv apply` 
 * Improved CLI help message
 
-## 1.0
+## v1.0
 
 **Date**: Feburary 5th, 2019
 
