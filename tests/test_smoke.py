@@ -6,18 +6,20 @@ from unittest.mock import patch
 
 import pytest
 
-from rbv import cli
+from valid8 import cli
 
 
-dse_rules_file = "examples/dse_rules.yml"
-single_rule_filter_action = "examples/single_rule_single_action.yml"
-single_rule_filter_action_FALSE = "examples/FALSE_single_rule_single_action.yml"
+dse_rules_file = "tests/data/examples/dse_rules.yml"
+single_rule_filter_action = "tests/data/examples/single_rule_single_action.yml"
+single_rule_filter_action_FALSE = (
+    "tests/data/examples/FALSE_single_rule_single_action.yml"
+)
 
 YAMLConfig = namedtuple("YAMLConfig", "filepath, cdir, expected")
 config_files_data = [
     YAMLConfig(dse_rules_file, ".", False),
     YAMLConfig(single_rule_filter_action, ".", True),
-    YAMLConfig(single_rule_filter_action, "./rbv", False),
+    YAMLConfig(single_rule_filter_action, "./valid8", False),
     YAMLConfig(single_rule_filter_action_FALSE, ".", False),
 ]
 
@@ -29,14 +31,14 @@ config_files_data = [
     indirect=["full_path", "current_dir"],
 )
 def test_expected_output(full_path, current_dir, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
 @pytest.mark.smoke
 @pytest.mark.parametrize("filepath, targeted_dir, expected", config_files_data)
 def test_expected_output_when_specifying_dir(filepath, targeted_dir, expected, capsys):
-    test_args = ["test", "validate", "--directory", targeted_dir, filepath]
+    test_args = ["test", "apply", "--directory", targeted_dir, filepath]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -68,7 +70,7 @@ def test_specifying_dir_with_rule_filename_exists(
 ):
     test_args = [
         "test",
-        "validate",
+        "apply",
         "--directory",
         targeted_dir,
         file_from_content.as_posix(),
@@ -89,26 +91,26 @@ def compare_main_with_expected_output(test_args, expected, capsys):
                 assert sysexit != 0
                 assert out.strip().endswith("False")
 
-    # TODO case where it doesn't exit
-
 
 ScenarioConfig = namedtuple("ScenarioConfig", "filepath, files, expected")
 scenarios_data = [
     ScenarioConfig(
-        filepath="examples/dse_rules.yml", files=["predictions.csv"], expected=True
+        filepath="tests/data/examples/dse_rules.yml",
+        files=["predictions.csv"],
+        expected=True,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml",
+        filepath="tests/data/examples/dse_rules.yml",
         files=["predictions.csv", "other.sh"],
         expected=True,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml",
+        filepath="tests/data/examples/dse_rules.yml",
         files=["subdir/predictions.csv", "other.sh"],
         expected=False,
     ),
     ScenarioConfig(
-        filepath="examples/dse_rules.yml", files=["other.sh"], expected=False
+        filepath="tests/data/examples/dse_rules.yml", files=["other.sh"], expected=False
     ),
 ]
 
@@ -139,7 +141,7 @@ def dir_structure(request, tmp_path):
     indirect=["full_path", "dir_structure"],
 )
 def test_with_fake_structure(full_path, dir_structure, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -164,9 +166,11 @@ ds_sp_extra_exec = ds_single_pipeline + ["executables/pipelineID"]
     ],
     indirect=["dirstructure"],
 )
-@pytest.mark.parametrize("full_path", ["examples/d3m_ta1.yml"], indirect=True)
+@pytest.mark.parametrize(
+    "full_path", ["tests/data/examples/d3m_ta1.yml"], indirect=True
+)
 def test_d3m_ta1(dirstructure, full_path, expected, capsys):
-    test_args = ["test", "validate", full_path]
+    test_args = ["test", "apply", full_path]
     compare_main_with_expected_output(test_args, expected, capsys)
 
 
@@ -265,3 +269,15 @@ def test_lint_fails_from_content(file_from_content, capsys):
         assert exit_code == 2
         out, err = capsys.readouterr()
         assert len(out) != 0
+
+
+@pytest.mark.smoke
+def test_shows_help(capsys):
+    test_args = ["valid8"]
+    with patch.object(sys, "argv", test_args):
+        try:
+            cli.main()
+        except SystemExit:
+            pass
+        out, err = capsys.readouterr()
+        assert out.startswith("usage") or err.startswith("usage")

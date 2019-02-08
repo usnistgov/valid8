@@ -16,7 +16,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import rbv
+import valid8
 
 # -- Project information -----------------------------------------------------
 
@@ -26,7 +26,7 @@ author = "Marion Le Bras"
 
 
 # The short X.Y version
-version = rbv.__version__
+version = valid8.__version__
 # The full version, including alpha/beta/rc tags
 release = version
 

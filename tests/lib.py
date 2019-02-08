@@ -2,7 +2,7 @@ from unittest.mock import patch
 from pathlib import Path
 import sys
 
-from rbv import cli
+from valid8 import cli
 
 CURRENT_FILE = Path(__file__)
 TEST_EXEC_DIR = CURRENT_FILE.parent.parent

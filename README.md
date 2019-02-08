@@ -1,10 +1,10 @@
 [doc]: https://dse-nist.ipages.nist.gov/rules-based-validator
 
-# Human Readable Validation
+# valid8: Human Readable Validation
 
 [Documentation][doc]
 
-`rbv` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
+`valid8` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
 
 ## Installation
 
@@ -13,19 +13,20 @@ This package requires Python3.6+.
 Clone the repository and use pip to install the contents: 
 ```bash
 $ git clone [GIT_CLONE_URL]
+$ pip install -r rules-based-validator/requirements.txt
 $ pip install ./rules-based-validator
 ```
 
 ## Usage
 
-`rbv` supports two subcommands: 
+`valid8` supports two subcommands: 
 * `validate` for most uses 
 * `lint` to check the validity of the rules file
 
 Usage: 
 ```bash
-$ rbv validate [--directory directory] rules.yml
-$ rbv lint rules.yml
+$ valid8 apply [--directory directory] rules.yml
+$ valid8 lint rules.yml
 ```
 
 
@@ -38,14 +39,14 @@ Example `rules.yml` with one rule:
     path_list:
       - "Makefile"
       - "setup.py"
-      - "rbv/cli.py"
+      - valid8
   actions:
     exists: true
     scripts:
       - wc -l ${FILEPATH}
 ```
 
-Other examples can be found in the [examples folder](examples/). 
+Other examples can be found in the `examples/` folder. 
 
 ## Filters and Actions
 
@@ -147,14 +148,14 @@ Name must be unique
 
 **License** 
 
-The license is documented in the [LICENSE file](LICENSE.md) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
+The license is documented in the [LICENSE file](LICENSE.txt) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
 
 **Versions and releases**: 
 
 See 
-* the [tags](/../tags) for all releases
+* the repository tags for all releases. [Gitlab link](/../tags) [Github link](../../tags)
 * the [CHANGELOG file](CHANGELOG.md) for a history of the releases.
-* [the `__version__` field in `rbv/__init__.py`](rbv/__init__.py). 
+* [the `__version__` field in `valid8/__init__.py`](valid8/__init__.py). 
 
 **Contact**:
 

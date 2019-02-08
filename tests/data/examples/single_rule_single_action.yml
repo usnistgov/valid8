@@ -1,8 +1,8 @@
 - rulename: arbitraryrulename
   filters:
     path_list:
-      - "Makefilezzz"
+      - "Makefile"
       - "setup.py"
-      - "rbv/cli.py"
+      - "valid8/cli.py"
   actions:
     exists: true

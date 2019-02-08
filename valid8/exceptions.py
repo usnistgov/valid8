@@ -50,6 +50,3 @@ class ValidationSyntaxError(BaseValidationError):
         self.exception = exception
         self.message = f"Found incorrect syntax. Exception raised {exception}"
         super().__init__(self.message, self.exception)
-
-
-# TODO could dataclasses be useful here?

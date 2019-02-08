@@ -9,7 +9,10 @@ def main():
     """
     parser = define_parser()
     args = parser.parse_args()
-    args.func(args)
+    if hasattr(args, "func") and args.func is not None:
+        args.func(args)
+    else:
+        parser.print_help()
 
 
 def define_parser():
@@ -24,19 +27,20 @@ def define_parser():
         description="Validate directory structure according to user-defined yaml rules"
     )
     subparsers = parser.add_subparsers(
-        help="Available subcommands. Call -h to see usage"
+        help="Available subcommands. Call -h to see usage", dest="apply"
     )
+    subparsers.required = True
 
     base_args = [
         # Main positional argument
-        [["ymlrules"], dict(help="the rules defined in yaml")],
+        [["rules_in_yaml"], dict(help="the rules defined in yaml")],
         # Verbosity flag (no effect for now)
         [
             ["-v", "--verbose"],
             dict(help="Toggle verbose log output", action="store_true"),
         ],
     ]
-    validate_args = base_args + [
+    apply_args = base_args + [
         [
             ["-d", "--directory"],
             dict(help="The directory to run the checks on", default="."),
@@ -52,10 +56,10 @@ def define_parser():
         return subp
 
     add_protocol_subparser(
-        "validate",
+        "apply",
         dict(help="Check the rules against the directory structure"),
         func=cmd_run_validation,
-        arguments=validate_args,
+        arguments=apply_args,
     )
 
     add_protocol_subparser(
@@ -76,11 +80,13 @@ def cmd_run_validation(args):
         args: argparse args
 
     Raises:
-        SystemExit(error_code)
+        SystemExit(error_code) \
         with error_code=1 if the directory structure does not follow the rules
 
     """
-    rules_structure = engine.process_configured_rules(args.ymlrules, args.directory)
+    rules_structure = engine.process_configured_rules(
+        args.rules_in_yaml, args.directory
+    )
 
     engine.print_summary(rules_structure)
 
@@ -91,12 +97,22 @@ def cmd_run_validation(args):
 
 def cmd_run_lint(args):
     """
-    [Alpha] CLI command to run yaml configuration file validation (i.e. linting)
+    CLI command to run yaml configuration file validation (i.e. linting)
     Does not apply the rules (filters OR actions).
     When invalid, prints errors to stdout.
 
     DOES NOT detect wrong arguments in filters or actions
-    because those are only used when applying the rule
+    because those are only used when applying the rule.
+
+    Things it will detect:
+        * no rules list
+        * missing rule name, filters section or actions section
+        * non-existing filter or action (e.g. when typing `exist` instead of `exists`)
+
+    Things it will not detect:
+        * Filter or action arguments of the wrong type (e.g. `count` expects integers)
+        * Filter or action arguments of the wrong YAML type \
+        (e.g. `count` expects direct arguments, `path_list` expects a YAML list)
 
     Args:
         args: argparse args
@@ -108,9 +124,8 @@ def cmd_run_lint(args):
     import yaml
 
     try:
-        rules_structure = engine.parse_yml(args.ymlrules)
+        rules_structure = engine.parse_yml(args.rules_in_yaml)
         engine.extract_rules(rules_structure)
-        # TODO make this into a real linting cmd
     except yaml.YAMLError as exc:
         print("Yaml error in configuration file:", exc)
     except exceptions.UnknownRule as unk:

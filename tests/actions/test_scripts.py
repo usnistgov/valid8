@@ -1,6 +1,6 @@
 import pytest
 
-from rbv.actions.scripts import context_variables, single_script, ScriptError
+from valid8.actions.scripts import context_variables, single_script, ScriptError
 
 from ..lib import compare_main_with_expected_output, CURRENT_FILE_REL
 
@@ -79,7 +79,7 @@ data_multi_multi_fails = [
 
 @pytest.mark.parametrize("file_from_content", data_ok, indirect=["file_from_content"])
 def test_single_command_ok(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, True, capsys)
 
 
@@ -87,7 +87,7 @@ def test_single_command_ok(file_from_content, capsys):
     "file_from_content", data_fails, indirect=["file_from_content"]
 )
 def test_single_command_fails(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, False, capsys)
 
 
@@ -95,7 +95,7 @@ def test_single_command_fails(file_from_content, capsys):
     "file_from_content", data_multi_single_ok, indirect=["file_from_content"]
 )
 def test_multi_file_single_command_ok(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, True, capsys)
 
 
@@ -103,7 +103,7 @@ def test_multi_file_single_command_ok(file_from_content, capsys):
     "file_from_content", data_multi_single_fails, indirect=["file_from_content"]
 )
 def test_multi_file_single_command_fails(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, False, capsys)
 
 
@@ -111,7 +111,7 @@ def test_multi_file_single_command_fails(file_from_content, capsys):
     "file_from_content", data_multi_multi_ok, indirect=["file_from_content"]
 )
 def test_single_file_multi_command_ok(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, True, capsys)
 
 
@@ -119,7 +119,7 @@ def test_single_file_multi_command_ok(file_from_content, capsys):
     "file_from_content", data_multi_multi_fails, indirect=["file_from_content"]
 )
 def test_single_file_multi_command_fails(file_from_content, capsys):
-    test_args = ["test", "validate", file_from_content.as_posix()]
+    test_args = ["test", "apply", file_from_content.as_posix()]
     compare_main_with_expected_output(test_args, False, capsys)
 
 
