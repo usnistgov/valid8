@@ -1,29 +1,25 @@
-[doc]: https://dse-nist.ipages.nist.gov/rules-based-validator
-
 # valid8: Human Readable Validation
-
-[Documentation][doc]
 
 `valid8` interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.
 
 ## Installation
 
-This package requires Python3.6+. 
+This package requires Python3.6+.
 
-Clone the repository and use pip to install the contents: 
+Clone the repository and use pip to install the contents:
 ```bash
 $ git clone [GIT_CLONE_URL]
-$ pip install -r rules-based-validator/requirements.txt
-$ pip install ./rules-based-validator
+$ pip install -r valid8/requirements.txt
+$ pip install ./valid8
 ```
 
 ## Usage
 
-`valid8` supports two subcommands: 
-* `validate` for most uses 
+`valid8` supports two subcommands:
+* `validate` for most uses
 * `lint` to check the validity of the rules file
 
-Usage: 
+Usage:
 ```bash
 $ valid8 apply [--directory directory] rules.yml
 $ valid8 lint rules.yml
@@ -46,7 +42,7 @@ Example `rules.yml` with one rule:
       - wc -l ${FILEPATH}
 ```
 
-Other examples can be found in the `examples/` folder. 
+Other examples can be found in the `examples/` folder.
 
 ## Filters and Actions
 
@@ -97,7 +93,7 @@ Using `find` with a YAML mapping and the key `file` calls `path_from_file`
       file: file_with_paths.txt
 ```
 
-These modes are not combinable. Only use one per rule. 
+These modes are not combinable. Only use one per rule.
 
 ### Actions
 
@@ -144,22 +140,22 @@ Examples are based on the file path `a/b/c.txt`
 `filters` or `actions` module.
 Name must be unique
 
-## About 
+## About
 
-**License** 
+**License**
 
-The license is documented in the [LICENSE file](LICENSE.txt) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software). 
+The license is documented in the [LICENSE file](LICENSE.txt) and on the [NIST website](https://www.nist.gov/director/copyright-fair-use-and-licensing-statements-srd-data-and-software).
 
-**Versions and releases**: 
+**Versions and releases**:
 
-See 
+See
 * the repository tags for all releases. [Gitlab link](/../tags) [Github link](../../tags)
 * the [CHANGELOG file](CHANGELOG.md) for a history of the releases.
-* [the `__version__` field in `valid8/__init__.py`](valid8/__init__.py). 
+* [the `__version__` field in `valid8/__init__.py`](valid8/__init__.py).
 
 **Contact**:
 
-Please send any issues, questions, or comments to datascience@nist.gov 
+Please send any issues, questions, or comments to datascience@nist.gov
 
 **Authors**:
 
