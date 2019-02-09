@@ -6,17 +6,16 @@
 
 This package requires Python3.6+.
 
-Clone the repository and use pip to install the contents:
+Clone the repository and jump in the directory, then:
 ```bash
-$ git clone [GIT_CLONE_URL]
-$ pip install -r valid8/requirements.txt
-$ pip install ./valid8
+$ pip install -r requirements.txt
+$ pip install .
 ```
 
 ## Usage
 
 `valid8` supports two subcommands:
-* `validate` for most uses
+* `apply` for most uses
 * `lint` to check the validity of the rules file
 
 Usage:
@@ -156,7 +155,3 @@ See
 **Contact**:
 
 Please send any issues, questions, or comments to datascience@nist.gov
-
-**Authors**:
-
-* Marion Le Bras
