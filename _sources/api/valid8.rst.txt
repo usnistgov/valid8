@@ -1,0 +1,26 @@
+valid8 package
+==============
+
+.. automodule:: valid8
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    valid8.actions
+    valid8.filters
+
+Submodules
+----------
+
+.. toctree::
+
+   valid8.cli
+   valid8.engine
+   valid8.exceptions
+   valid8.file_utils
+

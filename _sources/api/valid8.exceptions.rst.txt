@@ -1,0 +1,7 @@
+valid8.exceptions module
+========================
+
+.. automodule:: valid8.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:

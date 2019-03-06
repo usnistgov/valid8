@@ -1,0 +1,379 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>valid8: Human Readable Validation &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="YAML Specification" href="specification.html" />
+    <link rel="prev" title="Documentation for Rules Based Validation" href="index.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="specification.html" title="YAML Specification"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for Rules Based Validation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p><strong>Version</strong>: 1.2-dev</p>
+<div class="section" id="valid8-human-readable-validation">
+<h1>valid8: Human Readable Validation<a class="headerlink" href="#valid8-human-readable-validation" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">valid8</span></code> interprets rules in a human-readable format (YAML) and applies those rules to a directory structure.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This package requires Python3.6+.</p>
+<p>Clone the repository and jump in the directory, then:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
+$ pip install .
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">valid8</span></code> supports two subcommands:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">apply</span></code> for most uses</li>
+<li><code class="docutils literal notranslate"><span class="pre">lint</span></code> to check the validity of the rules file</li>
+</ul>
+<p>Usage:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ valid8 apply <span class="o">[</span>--directory directory<span class="o">]</span> rules.yml
+$ valid8 lint rules.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-rules-file">
+<h2>Example rules file<a class="headerlink" href="#example-rules-file" title="Permalink to this headline">¶</a></h2>
+<p>Example <code class="docutils literal notranslate"><span class="pre">rules.yml</span></code> with one rule:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">rulename</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">count_lines_in_specified_files</span>
+  <span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">path_list</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;Makefile&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;setup.py&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">valid8</span>
+  <span class="nt">actions</span><span class="p">:</span>
+    <span class="nt">exists</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">scripts</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">wc -l ${FILEPATH}</span>
+</pre></div>
+</div>
+<p>Other examples can be found in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder.</p>
+</div>
+<div class="section" id="filters-and-actions">
+<h2>Filters and Actions<a class="headerlink" href="#filters-and-actions" title="Permalink to this headline">¶</a></h2>
+<p>Each rule is described by two different concepts:</p>
+<ul class="simple">
+<li><strong>Filters</strong> select the files to which the rule will be applied.</li>
+<li><strong>Actions</strong> run checks on the files selected by the filters.</li>
+</ul>
+<p>Each rule is considered valid if all actions taken on the files
+selected by the filters returned a 0 exit code (success).</p>
+<div class="section" id="filters">
+<h3>Filters<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Usage</th>
+<th class="head">Description</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>path</td>
+<td><code class="docutils literal notranslate"><span class="pre">path:</span> <span class="pre">&quot;*.json&quot;</span></code></td>
+<td>Find files by a single name or pattern.</td>
+<td>Stable</td>
+</tr>
+<tr class="row-odd"><td>path_list</td>
+<td><code class="docutils literal notranslate"><span class="pre">path_list:</span></code><span class="raw-html-m2r"><br/></span><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">&quot;hello.txt&quot;</span></code><span class="raw-html-m2r"><br/></span><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">&quot;*.py&quot;</span></code></td>
+<td>Find files from list of names or patterns.</td>
+<td>Stable</td>
+</tr>
+<tr class="row-even"><td>paths_from_file</td>
+<td><code class="docutils literal notranslate"><span class="pre">paths_from_file:</span> <span class="pre">&quot;file_with_paths.txt&quot;</span></code></td>
+<td>Find files from file with names or patterns, one per line.</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<p>N.B. Compatible pattern matching expressions: anything compatible with <code class="docutils literal notranslate"><span class="pre">glob</span></code></p>
+<div class="section" id="the-find-shortcut">
+<h4>The <code class="docutils literal notranslate"><span class="pre">find</span></code> shortcut<a class="headerlink" href="#the-find-shortcut" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">find</span></code> filter is also available as syntactic sugar for the <code class="docutils literal notranslate"><span class="pre">path</span></code>, <code class="docutils literal notranslate"><span class="pre">path_list</span></code> and <code class="docutils literal notranslate"><span class="pre">paths_from_file</span></code> filters.</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">find</span></code> with a direct argument calls <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">find</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">find_this_file.txt</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">find</span></code> with a YAML list calls <code class="docutils literal notranslate"><span class="pre">path_list</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">find</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">find_this_file.txt</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">also_these_files.*</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">find</span></code> with a YAML mapping and the key <code class="docutils literal notranslate"><span class="pre">file</span></code> calls <code class="docutils literal notranslate"><span class="pre">path_from_file</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">find</span><span class="p">:</span>
+    <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">file_with_paths.txt</span>
+</pre></div>
+</div>
+<p>These modes are not combinable. Only use one per rule.</p>
+</div>
+</div>
+<div class="section" id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Usage</th>
+<th class="head">Description</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>exists</td>
+<td><code class="docutils literal notranslate"><span class="pre">exists:</span> <span class="pre">True</span></code></td>
+<td>Selected files exist (e.g. a minimum of 1 found)</td>
+<td>Stable</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td><code class="docutils literal notranslate"><span class="pre">count:</span> <span class="pre">n</span></code></td>
+<td>Find exactly <code class="docutils literal notranslate"><span class="pre">n</span></code> selected files.</td>
+<td>Stable</td>
+</tr>
+<tr class="row-even"><td>match</td>
+<td><code class="docutils literal notranslate"><span class="pre">match:</span> <span class="pre">{DIR_NAME}/otherfile.txt</span></code></td>
+<td>For each selected file, find another matched file</td>
+<td>Stable</td>
+</tr>
+<tr class="row-odd"><td>scripts (inline)</td>
+<td><code class="docutils literal notranslate"><span class="pre">scripts:</span> <span class="pre">&quot;wc</span> <span class="pre">-l</span> <span class="pre">{FILEPATH}&quot;</span></code></td>
+<td>Execute a shell command for each selected file</td>
+<td>Stable</td>
+</tr>
+<tr class="row-even"><td>scripts (list)</td>
+<td><code class="docutils literal notranslate"><span class="pre">scripts:</span></code><span class="raw-html-m2r"><br/></span><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">wc</span> <span class="pre">-l</span> <span class="pre">{FILEPATH}</span></code></td>
+<td>Execute a list of shell commands for each selected file</td>
+<td>Stable</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="substitutions">
+<h4>Substitutions<a class="headerlink" href="#substitutions" title="Permalink to this headline">¶</a></h4>
+<p><em>N.B.</em> Only available in <code class="docutils literal notranslate"><span class="pre">action.match</span></code> and <code class="docutils literal notranslate"><span class="pre">action.scripts</span></code></p>
+<p>In some rules, it’s useful to use information about the filtered files to make a determination on an action. The substitutions keys below are available for use in the parameter of the <code class="docutils literal notranslate"><span class="pre">match</span></code> and <code class="docutils literal notranslate"><span class="pre">scripts</span></code> action.</p>
+<p>For example, the following will check that every file matching <code class="docutils literal notranslate"><span class="pre">predictions/*/predictions.csv</span></code> has a corresponding <code class="docutils literal notranslate"><span class="pre">JSON</span></code> file with the original directory name as its filename.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">rulename</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">predictions_file</span>
+  <span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;predictions/*/predictions.csv&quot;</span>
+  <span class="nt">actions</span><span class="p">:</span>
+    <span class="nt">match</span><span class="p">:</span> <span class="s">&quot;pipelines/{DIR_NAME}.json&quot;</span>
+</pre></div>
+</div>
+<p>Examples are based on the file path <code class="docutils literal notranslate"><span class="pre">a/b/c.txt</span></code></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Substitution keys</th>
+<th class="head">Description</th>
+<th class="head">Example value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">{DIR_NAME}</span></code></td>
+<td>the directory name</td>
+<td><code class="docutils literal notranslate"><span class="pre">b</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">{DIR_PATH}</span></code></td>
+<td>the directory path</td>
+<td><code class="docutils literal notranslate"><span class="pre">a/b</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">{FILENAME_NOEXT}</span></code></td>
+<td>the filename without the extension</td>
+<td><code class="docutils literal notranslate"><span class="pre">c</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">{FILENAME}</span></code></td>
+<td>the filename with the extension</td>
+<td><code class="docutils literal notranslate"><span class="pre">c.txt</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">{FILEPATH}</span></code></td>
+<td>the file path</td>
+<td><code class="docutils literal notranslate"><span class="pre">a/b/c.txt</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="adding-a-custom-filter-or-action">
+<h3>Adding a custom filter or action<a class="headerlink" href="#adding-a-custom-filter-or-action" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Add the code in <code class="docutils literal notranslate"><span class="pre">filters/</span></code> or <code class="docutils literal notranslate"><span class="pre">actions/</span></code> respectively.</li>
+<li>Each filter or action must be a function and must include the <code class="docutils literal notranslate"><span class="pre">context</span></code> parameter in the signature.</li>
+<li>In the <code class="docutils literal notranslate"><span class="pre">filters/</span></code> or <code class="docutils literal notranslate"><span class="pre">actions/</span></code> <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>, add an import to add the new function under the
+<code class="docutils literal notranslate"><span class="pre">filters</span></code> or <code class="docutils literal notranslate"><span class="pre">actions</span></code> module.
+Name must be unique</li>
+</ol>
+</div>
+</div>
+<div class="section" id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
+<p><strong>License</strong></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">valid8: Human Readable Validation</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#example-rules-file">Example rules file</a></li>
+<li><a class="reference internal" href="#filters-and-actions">Filters and Actions</a><ul>
+<li><a class="reference internal" href="#filters">Filters</a><ul>
+<li><a class="reference internal" href="#the-find-shortcut">The <code class="docutils literal notranslate"><span class="pre">find</span></code> shortcut</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#actions">Actions</a><ul>
+<li><a class="reference internal" href="#substitutions">Substitutions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adding-a-custom-filter-or-action">Adding a custom filter or action</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#about">About</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Documentation for Rules Based Validation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="specification.html"
+                        title="next chapter">YAML Specification</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="specification.html" title="YAML Specification"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for Rules Based Validation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

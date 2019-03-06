@@ -1,0 +1,243 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>YAML Specification &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture" href="architecture.html" />
+    <link rel="prev" title="valid8: Human Readable Validation" href="readme.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="architecture.html" title="Architecture"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="valid8: Human Readable Validation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="yaml-specification">
+<h1>YAML Specification<a class="headerlink" href="#yaml-specification" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h2>
+<p>Rules are defined in <a class="reference external" href="https://yaml.org/spec/1.2/spec.html">YAML</a> as a YAML list.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">first rule content</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">second rule content</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">third rule content</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Each rule has 3 elements, expressed as key-value pairs in YAML:</dt>
+<dd><ul class="first last simple">
+<li>a name : <cite>rulename</cite></li>
+<li>a set of filters under the key <cite>filters</cite></li>
+<li>a set of actions under the key <cite>actions</cite></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">rulename</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">first_rule</span>
+  <span class="nt">filters</span><span class="p">:</span>
+    <span class="p p-Indicator">[</span><span class="nv">filter set here</span><span class="p p-Indicator">]</span>
+  <span class="nt">actions</span><span class="p">:</span>
+    <span class="p p-Indicator">[</span><span class="nv">action set here</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filters-and-actions">
+<h2>Filters and Actions<a class="headerlink" href="#filters-and-actions" title="Permalink to this headline">¶</a></h2>
+<p>Any number of filters or actions can be listed under <cite>filters</cite> or <cite>actions</cite> as key-value pairs,
+where the key is the filter (or action) function name and the value is the parameter sent to the filter or action.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">rulename</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">first_rule</span>
+  <span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">existing_filter_function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter_for_filter</span>
+  <span class="nt">actions</span><span class="p">:</span>
+    <span class="nt">existing_action_function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter_for_action</span>
+    <span class="nt">another_action_function</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">parameter1_for_action</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">parameter2_for_action</span>
+</pre></div>
+</div>
+<p>c.f. the complete list of <a class="reference external" href="readme.html#filters">available filters</a> and <a class="reference external" href="readme.html#actions">available actions</a>.</p>
+<p>There are 3 types of parameters that can be passed to a filter or action.</p>
+<div class="section" id="simple-key-value-parameter">
+<h3>Simple key-value parameter<a class="headerlink" href="#simple-key-value-parameter" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">actions</span><span class="p">:</span>
+  <span class="nt">action_function</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter_for_action</span>
+</pre></div>
+</div>
+<p>For example, the count action takes a single direct parameter: the number of files to expect.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">actions</span><span class="p">:</span>
+  <span class="nt">count</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-parameters">
+<h3>List parameters<a class="headerlink" href="#list-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">another_filter_function</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">parameter1_for_filter</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">parameter2_for_filter</span>
+</pre></div>
+</div>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">find</span></code> filter can take a list of files (or patterns) to find:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">find</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">find_this_file.txt</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">also_these_files.*</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mapping-parameter">
+<h3>Mapping parameter<a class="headerlink" href="#mapping-parameter" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">another_filter_function</span><span class="p">:</span>
+    <span class="nt">key_parameter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
+    <span class="nt">another_key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">another_value</span>
+</pre></div>
+</div>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">find</span></code> command can take a mapping parameter (but only for key <code class="docutils literal notranslate"><span class="pre">file</span></code>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">filters</span><span class="p">:</span>
+  <span class="nt">find</span><span class="p">:</span>
+    <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">file_with_paths.txt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<p>Currently the <cite>filters</cite> and <cite>actions</cite> keys expect a mapping of filter or action functions.
+It is therefore not possible to use the same filter or action twice.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">YAML Specification</a><ul>
+<li><a class="reference internal" href="#rules">Rules</a></li>
+<li><a class="reference internal" href="#filters-and-actions">Filters and Actions</a><ul>
+<li><a class="reference internal" href="#simple-key-value-parameter">Simple key-value parameter</a></li>
+<li><a class="reference internal" href="#list-parameters">List parameters</a></li>
+<li><a class="reference internal" href="#mapping-parameter">Mapping parameter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="readme.html"
+                        title="previous chapter">valid8: Human Readable Validation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="architecture.html"
+                        title="next chapter">Architecture</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/specification.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="architecture.html" title="Architecture"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="valid8: Human Readable Validation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

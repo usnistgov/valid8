@@ -1,0 +1,184 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>valid8.exceptions module &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="valid8.file_utils module" href="valid8.file_utils.html" />
+    <link rel="prev" title="valid8.engine module" href="valid8.engine.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="valid8.file_utils.html" title="valid8.file_utils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="valid8.engine.html" title="valid8.engine module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/API.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="valid8.html" accesskey="U">valid8 package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-valid8.exceptions">
+<span id="valid8-exceptions-module"></span><h1>valid8.exceptions module<a class="headerlink" href="#module-valid8.exceptions" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="valid8.exceptions.BaseValidationError">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">BaseValidationError</code><span class="sig-paren">(</span><em>message</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#BaseValidationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.BaseValidationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.IncorrectFileCount">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">IncorrectFileCount</code><span class="sig-paren">(</span><em>requested_count</em>, <em>files_found</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#IncorrectFileCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.IncorrectFileCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.NoSuchFile">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">NoSuchFile</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#NoSuchFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.NoSuchFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.PatternNotFound">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">PatternNotFound</code><span class="sig-paren">(</span><em>pattern</em>, <em>before_subs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#PatternNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.PatternNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.UnknownArgument">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">UnknownArgument</code><span class="sig-paren">(</span><em>message</em>, <em>rule_type</em>, <em>rule_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#UnknownArgument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.UnknownArgument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.UnknownRule">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">UnknownRule</code><span class="sig-paren">(</span><em>type</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#UnknownRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.UnknownRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="valid8.exceptions.ValidationSyntaxError">
+<em class="property">exception </em><code class="descclassname">valid8.exceptions.</code><code class="descname">ValidationSyntaxError</code><span class="sig-paren">(</span><em>exception</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/exceptions.html#ValidationSyntaxError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.exceptions.ValidationSyntaxError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#valid8.exceptions.BaseValidationError" title="valid8.exceptions.BaseValidationError"><code class="xref py py-class docutils literal notranslate"><span class="pre">valid8.exceptions.BaseValidationError</span></code></a></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="valid8.engine.html"
+                        title="previous chapter">valid8.engine module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="valid8.file_utils.html"
+                        title="next chapter">valid8.file_utils module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/valid8.exceptions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="valid8.file_utils.html" title="valid8.file_utils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="valid8.engine.html" title="valid8.engine module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/API.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="valid8.html" >valid8 package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

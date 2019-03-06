@@ -1,0 +1,15 @@
+valid8.filters package
+======================
+
+.. automodule:: valid8.filters
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   valid8.filters.match_paths
+

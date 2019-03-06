@@ -1,0 +1,7 @@
+valid8.filters.match\_paths module
+==================================
+
+.. automodule:: valid8.filters.match_paths
+    :members:
+    :undoc-members:
+    :show-inheritance:

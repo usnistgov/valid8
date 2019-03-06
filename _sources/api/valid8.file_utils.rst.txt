@@ -1,0 +1,7 @@
+valid8.file\_utils module
+=========================
+
+.. automodule:: valid8.file_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:

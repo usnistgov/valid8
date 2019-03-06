@@ -1,0 +1,7 @@
+valid8.actions.exists module
+============================
+
+.. automodule:: valid8.actions.exists
+    :members:
+    :undoc-members:
+    :show-inheritance:

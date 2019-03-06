@@ -1,0 +1,175 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Architecture &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CLI Reference" href="reference/CLI.html" />
+    <link rel="prev" title="YAML Specification" href="specification.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference/CLI.html" title="CLI Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="specification.html" title="YAML Specification"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general-architecture">
+<h2>General Architecture<a class="headerlink" href="#general-architecture" title="Permalink to this headline">¶</a></h2>
+<p>The module has :</p>
+<blockquote>
+<div><ul class="simple">
+<li>an engine, which applies the rules by interpreting the YAML and pulling from the actions and filters library</li>
+<li>the actions and filters libraries</li>
+<li>a CLI that dispatches calls to the engine</li>
+</ul>
+</div></blockquote>
+<img alt="_images/rules_engine.png" src="_images/rules_engine.png" />
+</div>
+<div class="section" id="mapping-yaml-to-code">
+<h2>Mapping YAML to code<a class="headerlink" href="#mapping-yaml-to-code" title="Permalink to this headline">¶</a></h2>
+<p>The validation engine maps rules defined in the yaml document by calling the
+function corresponding to the YAML key. The YAML value is passed as a parameter to
+the mapped function.</p>
+<img alt="_images/mapping_functions.png" src="_images/mapping_functions.png" />
+</div>
+<div class="section" id="filters-and-actions-namespace">
+<h2>Filters and Actions Namespace<a class="headerlink" href="#filters-and-actions-namespace" title="Permalink to this headline">¶</a></h2>
+<p>The filters core library (resp. actions) core library is located in the <code class="docutils literal notranslate"><span class="pre">filters/</span></code>
+(resp. <code class="docutils literal notranslate"><span class="pre">actions/</span></code>) directory.</p>
+<p>Filters (resp. actions) are available to be used in a YAML spec when they are
+imported in <code class="docutils literal notranslate"><span class="pre">filters/__init__.py</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">actions/__init__.py</span></code>).</p>
+<img alt="_images/namespacing.png" src="_images/namespacing.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Architecture</a><ul>
+<li><a class="reference internal" href="#general-architecture">General Architecture</a></li>
+<li><a class="reference internal" href="#mapping-yaml-to-code">Mapping YAML to code</a></li>
+<li><a class="reference internal" href="#filters-and-actions-namespace">Filters and Actions Namespace</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="specification.html"
+                        title="previous chapter">YAML Specification</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference/CLI.html"
+                        title="next chapter">CLI Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/architecture.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference/CLI.html" title="CLI Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="specification.html" title="YAML Specification"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

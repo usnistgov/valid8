@@ -1,0 +1,247 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>valid8.actions.match module &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="valid8.actions.scripts module" href="valid8.actions.scripts.html" />
+    <link rel="prev" title="valid8.actions.exists module" href="valid8.actions.exists.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="valid8.actions.scripts.html" title="valid8.actions.scripts module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="valid8.actions.exists.html" title="valid8.actions.exists module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/API.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="valid8.html" >valid8 package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="valid8.actions.html" accesskey="U">valid8.actions package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-valid8.actions.match">
+<span id="valid8-actions-match-module"></span><h1>valid8.actions.match module<a class="headerlink" href="#module-valid8.actions.match" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="valid8.actions.match.context_variables">
+<code class="descclassname">valid8.actions.match.</code><code class="descname">context_variables</code><span class="sig-paren">(</span><em>context_filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/actions/match.html#context_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.actions.match.context_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context file path subsitutions for <a class="reference internal" href="#valid8.actions.match.match" title="valid8.actions.match.match"><code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>context_filepath</strong> – the context the substitution variables refer to</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">of all the substitution keys and their values</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="valid8.actions.match.match">
+<code class="descclassname">valid8.actions.match.</code><code class="descname">match</code><span class="sig-paren">(</span><em>match_pattern</em>, <em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/actions/match.html#match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.actions.match.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action <cite>match</cite> checks that files represented by a pattern are
+present for every context item.</p>
+<p>In addition to syntax recognized by glob, the following variables are
+recognized in the pattern for each context item:</p>
+<blockquote>
+<div><ul class="simple">
+<li>{DIR_NAME}: the directory name, e.g. <cite>b</cite> for <cite>a/b/c.txt</cite></li>
+<li>{DIR_PATH}: the directory path for a context path, e.g. <cite>a/b</cite> for <cite>a/b/c.txt</cite></li>
+<li>{FILENAME_NOEXT}: the filename without the extension, e.g. <cite>c</cite> for <cite>a/b/c.txt</cite></li>
+<li>{FILENAME}: the filename with the extension, e.g. <cite>c.txt</cite> for <cite>a/b/c.txt</cite></li>
+<li>{FILEPATH}: the file path, e.g. <cite>a/b/c.txt</cite> for <cite>a/b/c.txt</cite></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Possible errors:</dt>
+<dd>:class:PatternNotFound for each pattern not found</dd>
+</dl>
+<p class="rubric">Example</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>If a match is found for every context item:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">returns</span> <span class="pre">(True,</span> <span class="pre">[])</span></code></dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>If a match is found for all but one context item:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">returns</span> <span class="pre">(False,</span> <span class="pre">[PatternNotFound()])</span></code></dd>
+</dl>
+</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>match_pattern</strong> (<em>str</em>) – pattern to check for, for each context item</li>
+<li><strong>context</strong> (<em>list</em>) – the context (list of file paths) found by the filters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(output boolean, error list)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="valid8.actions.match.single_match">
+<code class="descclassname">valid8.actions.match.</code><code class="descname">single_match</code><span class="sig-paren">(</span><em>match_pattern</em>, <em>context_filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/valid8/actions/match.html#single_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#valid8.actions.match.single_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that files matched by a single pattern are present.
+Called by <a class="reference internal" href="#valid8.actions.match.match" title="valid8.actions.match.match"><code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code></a>, supports the same substitution variables
+in <code class="docutils literal notranslate"><span class="pre">context_filepath</span></code>.</p>
+<p>For the single context item:</p>
+<ol class="arabic simple">
+<li>compute certain variables, e.g. {DIR_NAME}</li>
+<li>substitute those variables in match_pattern</li>
+<li>check whether there is a file matching that pattern</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>match_pattern</strong> (<em>str</em>) – pattern to check for</li>
+<li><strong>context_filepath</strong> (<em>str</em>) – a single context item (i.e. filepath)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(output boolean, error list)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="valid8.actions.exists.html"
+                        title="previous chapter">valid8.actions.exists module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="valid8.actions.scripts.html"
+                        title="next chapter">valid8.actions.scripts module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/valid8.actions.match.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="valid8.actions.scripts.html" title="valid8.actions.scripts module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="valid8.actions.exists.html" title="valid8.actions.exists module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/API.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="valid8.html" >valid8 package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="valid8.actions.html" >valid8.actions package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

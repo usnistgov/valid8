@@ -1,0 +1,7 @@
+valid8.cli module
+=================
+
+.. automodule:: valid8.cli
+    :members:
+    :undoc-members:
+    :show-inheritance:

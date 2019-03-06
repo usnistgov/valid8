@@ -1,0 +1,347 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>valid8.engine &#8212; Rules Based Validator 1.2-dev documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<html class="nist-footer-bottom">
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for valid8.engine</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ValidationSyntaxError</span><span class="p">,</span> <span class="n">UnknownRule</span>
+
+<span class="c1"># retrieve_associated_function depends on this line</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">actions</span><span class="p">,</span> <span class="n">filters</span>  <span class="c1"># noqa: F401</span>
+
+
+<div class="viewcode-block" id="process_configured_rules"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.process_configured_rules">[docs]</a><span class="k">def</span> <span class="nf">process_configured_rules</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes the user-defined rules.</span>
+<span class="sd">    Interprets the user-defined rules, maps then to functions,</span>
+<span class="sd">    executes the filters and actions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath: yml file with the configured rules. (str or pathlib.Path)</span>
+<span class="sd">        directory: the directory to run checks on</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         dict: rules structure with the interpreted rules and their output</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parsed_rules</span> <span class="o">=</span> <span class="n">parse_yml</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">rules_structure</span> <span class="o">=</span> <span class="n">extract_rules</span><span class="p">(</span><span class="n">parsed_rules</span><span class="p">)</span>
+    <span class="n">act_on_rules</span><span class="p">(</span><span class="n">rules_structure</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rules_structure</span></div>
+
+
+<div class="viewcode-block" id="parse_yml"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.parse_yml">[docs]</a><span class="k">def</span> <span class="nf">parse_yml</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts a rule list from the user-defined rules configuration file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath: yml file with the configured rules. str or pathlib.Path</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: of rules with their arguments</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlf</span><span class="p">:</span>
+        <span class="n">rules_list</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ymlf</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rules_list</span></div>
+
+
+<div class="viewcode-block" id="extract_rules"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.extract_rules">[docs]</a><span class="k">def</span> <span class="nf">extract_rules</span><span class="p">(</span><span class="n">parsed_rules</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transforms the parsed rules into a complete data structure called</span>
+<span class="sd">    `rules_structure`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parsed_rules (list): the rules parsed from the user-defined configuration file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: rules_structure,</span>
+<span class="sd">            a nested structure containing every information required to</span>
+<span class="sd">            apply filters and actions to the directory structure, including the</span>
+<span class="sd">            mapping to the functions to use.</span>
+<span class="sd">            Dictionary of rules. A rule is iteslf a dictionary with the following keys:</span>
+<span class="sd">            (filters, actions), both of which are lists of dictionaries.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rules_structure</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="n">rules_subtypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;filters&quot;</span><span class="p">,</span> <span class="s2">&quot;actions&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">parsed_rules</span><span class="p">:</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rule_content</span> <span class="o">=</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;rulename&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationSyntaxError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">for</span> <span class="n">subtype</span> <span class="ow">in</span> <span class="n">rules_subtypes</span><span class="p">:</span>
+            <span class="n">rules_structure</span><span class="p">[</span><span class="n">rule_content</span><span class="p">][</span><span class="n">subtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">extract_rules_subtype</span><span class="p">(</span>
+                <span class="n">subtype</span><span class="p">,</span> <span class="n">rule</span>
+            <span class="p">)</span>
+            <span class="n">rules_structure</span><span class="p">[</span><span class="n">rule_content</span><span class="p">][</span><span class="n">subtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">extract_rules_subtype</span><span class="p">(</span>
+                <span class="n">subtype</span><span class="p">,</span> <span class="n">rule</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rules_structure</span></div>
+
+
+<div class="viewcode-block" id="extract_rules_subtype"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.extract_rules_subtype">[docs]</a><span class="k">def</span> <span class="nf">extract_rules_subtype</span><span class="p">(</span><span class="n">rules_subtype</span><span class="p">,</span> <span class="n">rule_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enhances rules subsections (i.e. `filters` or `actions`) by fetching the corresponding function</span>
+<span class="sd">    and turning the YAML arguments into python `args` and `kwargs`.</span>
+
+<span class="sd">    Arguments transformation:</span>
+
+<span class="sd">        * Direct args -&gt; `args`</span>
+<span class="sd">        * List args -&gt; `args`</span>
+<span class="sd">        * Mapping args -&gt; `kwargs` dictionary</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        rules_subtype (str): the rule subsection to enhance, `filters` or `actions`</span>
+<span class="sd">        rule_dict (dict): the rule structure, see `extract_rules`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of function pointers, names and args for each subsection item.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValidationSyntaxError if the the subsections aren&#39;t found in the `rule_dict`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">extracted_functions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">type_dict</span> <span class="o">=</span> <span class="n">rule_dict</span><span class="p">[</span><span class="n">rules_subtype</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationSyntaxError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+    <span class="k">for</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">func_contents</span> <span class="ow">in</span> <span class="n">type_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">func_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_name</span>
+        <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">retrieve_associated_function</span><span class="p">(</span><span class="n">rules_subtype</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+
+        <span class="c1"># Setting args and kwargs for later unpacking</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">func_contents</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_contents</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_contents</span>
+            <span class="n">func_dict</span><span class="p">[</span><span class="s2">&quot;kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">extracted_functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">extracted_functions</span></div>
+
+
+<div class="viewcode-block" id="retrieve_associated_function"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.retrieve_associated_function">[docs]</a><span class="k">def</span> <span class="nf">retrieve_associated_function</span><span class="p">(</span><span class="n">rule_subtype</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the associated function from the user-defined name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rule_subtype (str): &#39;filters&#39; or &#39;actions&#39;</span>
+<span class="sd">        name (str): the name of the filter or action</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        &lt;function&gt;: the function associated to that name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_available_variables</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rule_subtype_module</span> <span class="o">=</span> <span class="n">all_available_variables</span><span class="p">[</span><span class="n">rule_subtype</span><span class="p">]</span>
+        <span class="n">associated_function</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rule_subtype_module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">UnknownRule</span><span class="p">(</span><span class="n">rule_subtype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+    <span class="k">return</span> <span class="n">associated_function</span></div>
+
+
+<div class="viewcode-block" id="act_on_rules"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.act_on_rules">[docs]</a><span class="k">def</span> <span class="nf">act_on_rules</span><span class="p">(</span><span class="n">rules_structure</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call the associated code for each rule.</span>
+<span class="sd">    The output of each rule action is reported in the dict of that rule in</span>
+<span class="sd">    `rules_structure`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rules_structure(dict): the structure representing rules.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">rule_name</span><span class="p">,</span> <span class="n">rule_contents</span> <span class="ow">in</span> <span class="n">rules_structure</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">act_on_rule</span><span class="p">(</span><span class="n">rule_contents</span><span class="p">)</span>
+
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cdir</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="act_on_rule"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.act_on_rule">[docs]</a><span class="k">def</span> <span class="nf">act_on_rule</span><span class="p">(</span><span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call the associated code for a single rule.</span>
+<span class="sd">    The output of the rules action is reported in the `rule` dict under</span>
+<span class="sd">    keys &#39;output&#39; and &#39;errors&#39;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rule (dict): the structure representing the rule,</span>
+<span class="sd">            found as a value of `rules_structure`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="c1"># get context from filters</span>
+    <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;filters&quot;</span><span class="p">]:</span>
+        <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">](</span><span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">],</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;kwargs&quot;</span><span class="p">])</span>
+
+    <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;context&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span>
+
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]:</span>
+        <span class="n">action_output</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">](</span>
+            <span class="n">action</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">],</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;kwargs&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">action</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action_output</span>
+
+    <span class="c1"># determining whole rule output</span>
+    <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]])</span></div>
+
+
+<div class="viewcode-block" id="print_summary"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.print_summary">[docs]</a><span class="k">def</span> <span class="nf">print_summary</span><span class="p">(</span><span class="n">rules_structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints a summary of the completed validation to stdout.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rules_structure(dict): the structure representing rules.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">rule_name</span><span class="p">,</span> <span class="n">rule_content</span> <span class="ow">in</span> <span class="n">rules_structure</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rule: &quot;</span><span class="p">,</span> <span class="n">rule_name</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Context:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">rule_content</span><span class="p">[</span><span class="s2">&quot;context&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    &quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">rule_content</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Action: &quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rule output: &quot;</span><span class="p">,</span> <span class="n">rule_content</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">])</span>
+
+    <span class="n">combined_output</span> <span class="o">=</span> <span class="n">rules_output</span><span class="p">(</span><span class="n">rules_structure</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--</span><span class="se">\n</span><span class="s2">Combined rules output: &quot;</span><span class="p">,</span> <span class="n">combined_output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rules_output"><a class="viewcode-back" href="../../api/valid8.engine.html#valid8.engine.rules_output">[docs]</a><span class="k">def</span> <span class="nf">rules_output</span><span class="p">(</span><span class="n">rules_structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines the total rules output after the filters and actions after `act_on_rules`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rules_structure (dict): dict representing the extracted and interpreted rules</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the rules were followed in the directory structure.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rules_output</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">rule</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules_structure</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">rules_output</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Rules Based Validator 1.2-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>
