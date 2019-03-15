@@ -18,8 +18,11 @@ class InsufficientFileCount(BaseValidationError):
     def __init__(self, requested_count, files_found):
         self.requested_count = requested_count
         self.files_found = files_found
-        self.message = f"{len(files_found)} files found, at least {requested_count} requested."
+        self.message = (
+            f"{len(files_found)} files found, at least {requested_count} requested."
+        )
         super().__init__(self.message)
+
 
 class IncorrectFileCount(BaseValidationError):
     def __init__(self, requested_count, files_found):
