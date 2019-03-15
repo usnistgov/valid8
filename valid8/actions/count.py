@@ -8,15 +8,17 @@ def count(n, context):
     respects the cardinality ``n``.
 
     Args:
-        n(int): Requested number of files.
+        n: Expected number of files. Can be an integer such as "1" or "3" expecting that exact number of files, or
+        a string that is an integer followed by a '+', such as "2+", expecting at least that number of files.
         context(list): the filtered context, e.g. all files to apply this rule to.
 
     Possible errors:
         single :class:`IncorrectFileCount`
+        single :class:`InsufficientFileCount`
 
     Example:
 
-        * If the context matches the cardinality `n`, (e.g. 1 file for `n==1` or 7 `n=='+'`):
+        * If the context matches the cardinality `n`, (e.g. 1 file for `n==1` or 7 `n=='5+'`):
             `returns (True, [])`
         * If the context does not match the cardinality `n`, (e.g. 2 files for `n==1`):
             `returns (False, [IncorrectFileCount()])`
@@ -24,6 +26,8 @@ def count(n, context):
     Returns:
         tuple: (output boolean, error list)
 
+    Raises:
+        UnknownArgument: is raised when "n" is formatted incorrectly
     """
 
     existing_files = [filepath for filepath in context if filepath_exists(filepath)]
