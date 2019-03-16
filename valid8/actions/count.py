@@ -1,6 +1,7 @@
+import re
+
 from ..exceptions import IncorrectFileCount, InsufficientFileCount, UnknownArgument
 from ..file_utils import filepath_exists
-import re
 
 
 def count(n, context):
@@ -35,10 +36,10 @@ def count(n, context):
     existing_files = [filepath for filepath in context if filepath_exists(filepath)]
     exists_file_count = len(existing_files)
 
-    count_plus_num_match = re.match(r"(\d+)\+", str(n))
+    count_plus_num_match = re.match(r"(\d+)\+$", str(n))
     # Case 1: we have n="<n>+" where <n> is an integer
     if count_plus_num_match is not None:
-        min_n = count_plus_num_match.group(1)
+        min_n = int(count_plus_num_match.group(1))
         if exists_file_count >= min_n:
             return True, []
         else:

@@ -1,20 +1,142 @@
 import pytest
 
 from valid8.actions.count import count
+from valid8.exceptions import UnknownArgument
 
 
 context_data_for_count = [
     (["real_dir"], 1, True),
     (["real_dir"], 9999, False),
     (["real_dir", "real_file"], 2, True),
+    (["real_dir", "real_file"], "2", True),
+    (["real_dir", "real_file"], "2+", True),
+    (["real_dir", "real_file"], "0+", True),
+    (["real_dir", "real_file"], "1+", True),
     (["real_dir", "real_file"], -9, False),
     (["real_dir", "real_file"], 0, False),
+    (["real_dir", "real_file"], "0", False),
+    (["real_dir", "real_file"], "3", False),
+    (["real_dir", "real_file"], "3+", False),
+    (["real_dir", "real_file"], "4+", False),
     (["fake_file"], 1, False),
     (["fake_file"], 0, True),
     (["fake_file", "real_dir", "real_file"], 2, True),
+    (["fake_file", "real_dir", "real_file"], 10, False),
+    (["fake_file", "real_dir", "real_file"], "101+", False),
+    (["fake_file", "fake_file"], 2, True),
     (["fake_file", "fake_file"], 1, False),
     (["fake_file", "fake_file"], 0, True),
+    (["fake_file", "fake_file"], 0, True),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        12,
+        True,
+    ),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        11,
+        False,
+    ),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        13,
+        False,
+    ),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        "12+",
+        True,
+    ),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        "11+",
+        True,
+    ),
+    (
+        [
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+            "fake_file",
+        ],
+        "13+",
+        False,
+    ),
     ([], 0, True),
+    ([], "0+", True),
 ]
 
 
@@ -29,3 +151,21 @@ def test_count(data_for_count):
     output, errors = count(n, context)
     assert output is expected
     assert output or len(errors) != 0
+
+
+def test_count_improper_format_1():
+    with pytest.raises(UnknownArgument) as excinfo:
+        context, n = ["real_dir"], "1a"
+        output, errors = count(n, context)
+    assert "count() expects and integer or an integer followed by a plus" in str(
+        excinfo.value
+    )
+
+
+def test_count_improper_format_2():
+    with pytest.raises(UnknownArgument) as excinfo:
+        context, n = ["real_dir", "fake_dir"], "23+3"
+        output, errors = count(n, context)
+    assert "count() expects and integer or an integer followed by a plus" in str(
+        excinfo.value
+    )
