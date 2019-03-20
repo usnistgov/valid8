@@ -11,7 +11,7 @@ before_script:
 
 tests:
   stage: test
-  script: tox -e py37
+  script: SHELL=$SHELL tox -e py37
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
