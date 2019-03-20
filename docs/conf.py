@@ -49,6 +49,7 @@ extensions = [
     "sphinx.ext.napoleon",  # google- or numpy-style docstrings
     "m2r",  # .. mdinclude:: file  directive
     "sphinxcontrib.autoprogram",
+    "sphinx.ext.githubpages",
 ]
 
 # Napoleon settings
