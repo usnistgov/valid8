@@ -11,7 +11,7 @@ from valid8 import cli
 
 dse_rules_file = "tests/data/examples/dse_rules.yml"
 single_rule_filter_action = "tests/data/examples/single_rule_single_action.yml"
-single_rule_filter_action_FALSE = (
+single_rule_filter_action_false = (
     "tests/data/examples/FALSE_single_rule_single_action.yml"
 )
 
@@ -20,7 +20,7 @@ config_files_data = [
     YAMLConfig(dse_rules_file, ".", False),
     YAMLConfig(single_rule_filter_action, ".", True),
     YAMLConfig(single_rule_filter_action, "./valid8", False),
-    YAMLConfig(single_rule_filter_action_FALSE, ".", False),
+    YAMLConfig(single_rule_filter_action_false, ".", False),
 ]
 
 
@@ -223,7 +223,7 @@ linter_data_incorrect = {"missing_actions": missing_actions}
 
 
 @pytest.mark.parametrize(
-    "path", [dse_rules_file, single_rule_filter_action, single_rule_filter_action_FALSE]
+    "path", [dse_rules_file, single_rule_filter_action, single_rule_filter_action_false]
 )
 def test_lint_ok(path, capsys):
     test_args = ["test", "lint", path]

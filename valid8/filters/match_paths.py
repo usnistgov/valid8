@@ -1,5 +1,5 @@
-from ..file_utils import pattern_matches
 from ..exceptions import UnknownArgument
+from ..file_utils import pattern_matches
 
 
 def find(args, context, **kwargs):
