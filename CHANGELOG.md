@@ -1,7 +1,16 @@
 # Changelog
 
-## (dev) v1.2
+## v1.2
 
+**Core**: 
+* `count` action now supports `count: 1+` syntax
+* Using `pyyaml` `safe_load` instead of `load`
+* No longer using `subprocess` `shell=True` option
+
+**Misc**:
+
+* Docs are now hosted on NIST-pages 
+* `push_to_gitlab` CI pipelines can be triggered on `web` CI pipelines. 
 
 ## v1.1
 
