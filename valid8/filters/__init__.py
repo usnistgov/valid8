@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 __all__ = ["path", "path_list", "paths_from_file", "find"]
 
 from .match_paths import find

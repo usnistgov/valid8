@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 from ..exceptions import NoSuchFile
 from ..file_utils import filepath_exists
 

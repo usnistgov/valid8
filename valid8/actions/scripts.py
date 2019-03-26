@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 import subprocess
 from os import environ
 from pathlib import Path

@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 import os
 from collections import defaultdict
 
