@@ -50,7 +50,7 @@ pages:
   dependencies:
     - docs
   script:
-    - mv html_docs public
+    - cp -r html_docs public
   artifacts:
     paths:
       - public
@@ -59,10 +59,10 @@ pages:
 
 push_to_github:
   before_script: []
-  variables:
-    GITHUB_MIRROR:  https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/usnistgov/valid8.git
   stage: deploy
   dependencies:
     - docs
-  script: make publish_to_gitlab
+  script: make publish_to_github
+  only:
+    - web
   when: manual
