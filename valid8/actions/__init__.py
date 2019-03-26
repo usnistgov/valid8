@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 __all__ = ["count", "exists", "match", "scripts", "script", "find_match", "cardinality"]
 
 from .count import count

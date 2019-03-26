@@ -11,7 +11,7 @@ before_script:
 
 tests:
   stage: test
-  script: tox -e py37
+  script: SHELL=$SHELL tox -e py37
   artifacts:
     paths:
       - $CI_PROJECT_DIR/htmlcov
@@ -50,9 +50,19 @@ pages:
   dependencies:
     - docs
   script:
-    - mv html_docs public
+    - cp -r html_docs public
   artifacts:
     paths:
       - public
   only:
     - master
+
+push_to_github:
+  before_script: []
+  stage: deploy
+  dependencies:
+    - docs
+  script: make publish_to_github
+  only:
+    - web
+  when: manual

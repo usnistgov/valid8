@@ -1,4 +1,7 @@
+# Contents subject to LICENSE.txt at project root
+
 import subprocess
+from os import environ
 from pathlib import Path
 
 from ..exceptions import BaseValidationError
@@ -35,7 +38,7 @@ def single_script(commands, context_filepath):
 
     for command in interpreted_commands:
         try:
-            subprocess.run(command, shell=True, check=True)
+            subprocess.run([environ["SHELL"], "-c", command], check=True)
         except subprocess.CalledProcessError as e:
             return False, [ScriptError(command, e.returncode)]
 

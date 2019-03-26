@@ -1,3 +1,6 @@
+# Contents subject to LICENSE.txt at project root
+
+
 class BaseValidationError(Exception):
     def __init__(self, message, *args):
         self.message = message
@@ -11,6 +14,16 @@ class NoSuchFile(BaseValidationError):
     def __init__(self, filepath):
         self.target = filepath
         self.message = f"'{filepath}' was not found."
+        super().__init__(self.message)
+
+
+class InsufficientFileCount(BaseValidationError):
+    def __init__(self, requested_count, files_found):
+        self.requested_count = requested_count
+        self.files_found = files_found
+        self.message = (
+            f"{len(files_found)} files found, at least {requested_count} requested."
+        )
         super().__init__(self.message)
 
 

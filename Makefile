@@ -28,3 +28,6 @@ clean:
 
 docs_clean:
 	rm -rf $(DOC_TARGETS)
+
+publish_to_github:
+	bash -x publish_to_github.sh

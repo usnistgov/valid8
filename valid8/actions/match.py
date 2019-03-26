@@ -1,3 +1,5 @@
+# Contents subject to LICENSE.txt at project root
+
 from pathlib import Path
 
 from ..exceptions import PatternNotFound

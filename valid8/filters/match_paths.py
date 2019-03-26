@@ -1,5 +1,7 @@
-from ..file_utils import pattern_matches
+# Contents subject to LICENSE.txt at project root
+
 from ..exceptions import UnknownArgument
+from ..file_utils import pattern_matches
 
 
 def find(args, context, **kwargs):

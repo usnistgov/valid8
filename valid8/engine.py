@@ -1,5 +1,7 @@
-from collections import defaultdict
+# Contents subject to LICENSE.txt at project root
+
 import os
+from collections import defaultdict
 
 import yaml
 
@@ -41,7 +43,7 @@ def parse_yml(filepath):
 
     """
     with open(filepath) as ymlf:
-        rules_list = yaml.load(ymlf)
+        rules_list = yaml.safe_load(ymlf)
     return rules_list
 
 
