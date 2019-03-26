@@ -67,7 +67,11 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for valid8.actions.count</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">IncorrectFileCount</span>
+<span></span><span class="c1"># Contents subject to LICENSE.txt at project root</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">IncorrectFileCount</span><span class="p">,</span> <span class="n">InsufficientFileCount</span><span class="p">,</span> <span class="n">UnknownArgument</span>
 <span class="kn">from</span> <span class="nn">..file_utils</span> <span class="k">import</span> <span class="n">filepath_exists</span>
 
 
@@ -77,15 +81,18 @@ $(document).ready(function(){
 <span class="sd">    respects the cardinality ``n``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        n(int): Requested number of files.</span>
+<span class="sd">        n: Expected number of files. Can be an integer such as &quot;1&quot; or &quot;3&quot;</span>
+<span class="sd">            expecting that exact number of files, or a string that is an integer</span>
+<span class="sd">            followed by a &#39;+&#39;, such as &quot;2+&quot;, expecting at least that number of files.</span>
 <span class="sd">        context(list): the filtered context, e.g. all files to apply this rule to.</span>
 
 <span class="sd">    Possible errors:</span>
 <span class="sd">        single :class:`IncorrectFileCount`</span>
+<span class="sd">        single :class:`InsufficientFileCount`</span>
 
 <span class="sd">    Example:</span>
 
-<span class="sd">        * If the context matches the cardinality `n`, (e.g. 1 file for `n==1` or 7 `n==&#39;+&#39;`):</span>
+<span class="sd">        * If the context matches the cardinality `n`, (e.g. 1 file for `n==1` or 7 `n==&#39;5+&#39;`):</span>
 <span class="sd">            `returns (True, [])`</span>
 <span class="sd">        * If the context does not match the cardinality `n`, (e.g. 2 files for `n==1`):</span>
 <span class="sd">            `returns (False, [IncorrectFileCount()])`</span>
@@ -93,13 +100,35 @@ $(document).ready(function(){
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple: (output boolean, error list)</span>
 
+<span class="sd">    Raises:</span>
+<span class="sd">        UnknownArgument: is raised when &quot;n&quot; is formatted incorrectly</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">existing_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">filepath</span> <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">context</span> <span class="k">if</span> <span class="n">filepath_exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">existing_files</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="n">IncorrectFileCount</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">existing_files</span><span class="p">)]</span>
+    <span class="n">exists_file_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">existing_files</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[]</span></div>
+    <span class="n">count_plus_num_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\d+)\+$&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="c1"># Case 1: we have n=&quot;&lt;n&gt;+&quot; where &lt;n&gt; is an integer</span>
+    <span class="k">if</span> <span class="n">count_plus_num_match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">count_plus_num_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">exists_file_count</span> <span class="o">&gt;=</span> <span class="n">min_n</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="n">InsufficientFileCount</span><span class="p">(</span><span class="n">min_n</span><span class="p">,</span> <span class="n">existing_files</span><span class="p">)]</span>
+    <span class="c1"># Case 2: n is an integer parseable with int(), if here not at Case 1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">int_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exists_file_count</span> <span class="o">!=</span> <span class="n">int_n</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="n">IncorrectFileCount</span><span class="p">(</span><span class="n">int_n</span><span class="p">,</span> <span class="n">existing_files</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[]</span>
+    <span class="c1"># Case 3: improperly formatted arugment</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">err_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;count() expects and integer or an integer followed by a plus, such as &#39;11&#39; or `3+`. &quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;count() received argument &quot;</span>
+            <span class="o">+</span> <span class="n">n</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">UnknownArgument</span><span class="p">(</span><span class="n">err_message</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

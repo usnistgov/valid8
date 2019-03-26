@@ -67,7 +67,10 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for valid8.exceptions</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="BaseValidationError"><a class="viewcode-back" href="../../api/valid8.exceptions.html#valid8.exceptions.BaseValidationError">[docs]</a><span></span><span class="k">class</span> <span class="nc">BaseValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span></span><span class="c1"># Contents subject to LICENSE.txt at project root</span>
+
+
+<div class="viewcode-block" id="BaseValidationError"><a class="viewcode-back" href="../../api/valid8.exceptions.html#valid8.exceptions.BaseValidationError">[docs]</a><span class="k">class</span> <span class="nc">BaseValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
@@ -80,6 +83,16 @@ $(document).ready(function(){
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">filepath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&#39;</span><span class="si">{filepath}</span><span class="s2">&#39; was not found.&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InsufficientFileCount"><a class="viewcode-back" href="../../api/valid8.exceptions.html#valid8.exceptions.InsufficientFileCount">[docs]</a><span class="k">class</span> <span class="nc">InsufficientFileCount</span><span class="p">(</span><span class="n">BaseValidationError</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requested_count</span><span class="p">,</span> <span class="n">files_found</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requested_count</span> <span class="o">=</span> <span class="n">requested_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">files_found</span> <span class="o">=</span> <span class="n">files_found</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;{len(files_found)} files found, at least </span><span class="si">{requested_count}</span><span class="s2"> requested.&quot;</span>
+        <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
 
 
